@@ -55,7 +55,7 @@ public class GuiPatient extends JFrame {
 	private JPanel panel_7;
 	public GuiPatient(double [] time1, double []eegInput, double []time2, double[] ecgInput ,String name, String surname,int weight, char gender,int age) {
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
@@ -161,7 +161,7 @@ public class GuiPatient extends JFrame {
 		title.setFont(new Font("Segoe UI",80,15));
 		panel_1.setLayout(new GridLayout(1,3));
 		panel_1.add(title,LEFT_ALIGNMENT);
-		JLabel devBuild=new JLabel("devBuild alpha 1.0");
+		JLabel devBuild=new JLabel("devBuild alpha 2.0");
 		devBuild.setForeground(Color.white);
 		devBuild.setFont(new Font("Segoe UI",80,15));
 		panel_1.add(devBuild);
