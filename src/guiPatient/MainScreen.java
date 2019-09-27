@@ -1,0 +1,149 @@
+package guiPatient;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class MainScreen{
+
+	private JPanel contentPane;
+	private JFrame f;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainScreen frame = new MainScreen();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public MainScreen() {
+		f= new JFrame();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setBounds(100, 100, 850, 500);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		f.setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(2,1));
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		f.setLocation(dim.width/2-f.getSize().width/2, dim.height/2-f.getSize().height/2);
+		f.setResizable(false);
+		JPanel panel_1 = new JPanel();
+		JPanel panel_2 = new JPanel();
+		panel_1.setBackground(Color.BLACK);
+		panel_2.setBackground(Color.BLACK);
+		contentPane.add(panel_1);
+		contentPane.add(panel_2);
+		panel_1.setLayout(new BorderLayout());
+		Font ui =new Font("Segoe UI", Font.PLAIN,20);
+		JLabel label_1= new JLabel("PatientMonitorer, devBuild alpha 1.0, Telemedicine 2019-2020");
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setFont(ui);
+		label_1.setForeground(Color.WHITE);
+		label_1.setHorizontalTextPosition(JLabel.CENTER);
+		try {
+			BufferedImage nominal;
+			nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\logo.jpg"));
+			JLabel picLabel = new JLabel(new ImageIcon(nominal));
+			panel_1.add(picLabel,BorderLayout.CENTER);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			System.out.println("failed to import image");
+		}
+		panel_1.add(label_1,BorderLayout.SOUTH);
+		JButton button_1= new JButton("Start Recording");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Call method to connect to Bitalino
+				//get Data from bitalino
+				//GuiPatient g= new GuiPatient(time1, eegInput, time2, ecgInput, name, surname, weight, gender, age)
+				f.dispose();
+			}
+		});
+		JButton button_2= new JButton("Last report");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//read from file an archive
+				//GuiPatient g= new GuiPatient(time1, eegInput, time2, ecgInput, name, surname, weight, gender, age)
+				f.dispose();
+			}
+		});
+		JButton button_3= new JButton("Report Symptoms");
+		JButton button_4= new JButton("Send Alert");
+		
+		button_1.setFont(ui);
+		button_2.setFont(ui);
+		button_3.setFont(ui);
+		button_4.setFont(ui);
+		
+		button_1.setBackground(Color.DARK_GRAY);
+		button_2.setBackground(Color.DARK_GRAY);
+		
+		button_1.setForeground(Color.WHITE);
+		button_2.setForeground(Color.WHITE);
+		
+		panel_2.setLayout(new BorderLayout());
+		JPanel panel_3 = new JPanel();
+		JPanel panel_4 = new JPanel();
+		JPanel panel_5 = new JPanel();
+		JPanel panel_6 = new JPanel();
+		
+		panel_3.setBackground(Color.BLACK);
+		panel_4.setBackground(Color.BLACK);
+		panel_5.setBackground(Color.BLACK);
+		panel_6.setBackground(Color.BLACK);
+		
+		Component HorizontalStrut_1 = Box.createHorizontalStrut(160);
+		Component HorizontalStrut_2 = Box.createHorizontalStrut(160);
+		
+		panel_5.add(HorizontalStrut_2);
+		panel_6.add(HorizontalStrut_1);
+		
+		panel_2.add(panel_3,BorderLayout.NORTH);
+		panel_2.add(panel_4,BorderLayout.SOUTH);
+		panel_2.add(panel_5,BorderLayout.EAST);
+		panel_2.add(panel_6,BorderLayout.WEST);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(Color.BLACK);
+		panel_2.add(panel_7,BorderLayout.CENTER);
+		
+		panel_7.setLayout(new GridLayout(5,1));
+		panel_7.add(new JLabel(""));
+		panel_7.add(button_1);
+		panel_7.add(new JLabel(""));
+		panel_7.add(button_2);
+		panel_7.add(new JLabel(""));
+		f.setVisible(true);
+	}
+}
