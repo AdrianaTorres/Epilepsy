@@ -104,6 +104,7 @@ public class GuiHospital extends JFrame {
 		panel.setBackground(Color.BLACK);
 
 		list = new JList();
+		list.setCellRenderer(new FancyListSellection());
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -249,13 +250,13 @@ public class GuiHospital extends JFrame {
 					}
 				}
 			}
-		});
+		});																												
 		tag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String[]updatedList =GuiHospital.filterList(tag.getText());
-				GuiHospital.updateList(updatedList);
-			}
-		});
+				GuiHospital.updateList(updatedList);																																																			
+			}																									
+		});														
 
 		tag.setBackground(Color.GRAY);
 		tag.setFont(ui);
