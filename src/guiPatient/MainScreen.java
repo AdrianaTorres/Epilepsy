@@ -84,10 +84,16 @@ public class MainScreen{
 		JButton button_1= new JButton("Start Recording");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//Call method to connect to Bitalino
+				ConnectingToBitalino c= new ConnectingToBitalino();
+				boolean isConnected =false;
+				if(isConnected) {
+					f.dispose();
+					c.successfullyConnected();
+				}else {
+					c.failedToConnect();
+				}
 				//get Data from bitalino
 				//GuiPatient g= new GuiPatient(time1, eegInput, time2, ecgInput, name, surname, weight, gender, age)
-				f.dispose();
 			}
 		});
 		JButton button_2= new JButton("Last report");
