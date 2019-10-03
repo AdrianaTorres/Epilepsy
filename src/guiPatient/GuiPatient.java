@@ -53,6 +53,7 @@ public class GuiPatient extends JFrame {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
+	private static int sufferedSymptoms;
 	public GuiPatient(double [] time1, double []eegInput, double []time2, double[] ecgInput ,String name, String surname,int weight, char gender,int age) {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -259,7 +260,7 @@ public class GuiPatient extends JFrame {
 		JButton btnNewButton = new JButton("Report Symptoms");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*open symptom tab here*/
+				SymptomsTab s= new SymptomsTab();
 				try {
 					BufferedImage nominal;
 					if(gender=='m') {
@@ -321,19 +322,11 @@ public class GuiPatient extends JFrame {
 		textArea.setVisible(false);
 		textArea.setVisible(true);
 	}
-	public void updateECG(double[]time,double[]data) {
-		ecg.updateGraph(time,data);
-		panel_6.removeAll();
-		panel_6.add(ecg.getGraph().getContentPane(),BorderLayout.CENTER);
-		panel_6.setVisible(false);
-		panel_6.setVisible(true);
+	public static void setSymptoms(int s) {
+		sufferedSymptoms=s;
 	}
-	public void updateEEG(double[]time,double[]data) {
-		ecg.updateGraph(time,data);
-		panel_7.removeAll();
-		panel_7.add(ecg.getGraph().getContentPane(),BorderLayout.CENTER);
-		panel_7.setVisible(false);
-		panel_7.setVisible(true);
+	public static int getSymptoms() {
+		return sufferedSymptoms;
 	}
 
 }

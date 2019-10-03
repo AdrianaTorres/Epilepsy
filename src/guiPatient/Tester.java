@@ -27,8 +27,6 @@ public class Tester {
 				yAxis[i]=Math.random()*10;
 				yAxis2[i]=Math.random()*100;
 			}
-			patientViewer.updateECG(time, yAxis);
-			patientViewer.updateEEG(time, yAxis2);
 		}
 	}
 
