@@ -1,9 +1,11 @@
 package guiPatient;
 
+import fileManager.FileManager;
+
 public class Tester {
 
 	public static void main(String[] args) {
-		String name="Pepe";
+		/*String name="Pepe";
 		String surname="The Frog";
 		int age=34;
 		char gender ='f';
@@ -27,7 +29,10 @@ public class Tester {
 				yAxis[i]=Math.random()*10;
 				yAxis2[i]=Math.random()*100;
 			}
-		}
+		}*/
+		FileManager f= new FileManager();
+		f.writeUserConfig("Fat", "Joe", 34, 120, 'm');
+		f.readUserConfig();
 	}
 
 }
