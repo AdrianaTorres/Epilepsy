@@ -94,7 +94,6 @@ public class MainScreen{
 		JButton button_2= new JButton("Last report");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//Create a file browser to get the path of the file and pass it down as an argument.
 				JFileChooser c = new JFileChooser();
 			      int rVal = c.showOpenDialog(f);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {

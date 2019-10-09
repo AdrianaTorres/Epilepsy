@@ -14,8 +14,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import mainMethodPatient.MainPatient;
-
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultBoundedRangeModel;
@@ -31,6 +29,7 @@ public class ConnectingToBitalino {
 	private JProgressBar jb;
 	private JPanel panel_3;
 	private JButton button_1;
+	private JTextField textField_1;
 	private Component horizontalStrut_5;
 	private Component horizontalStrut_6;
 	private Component horizontalStrut_a;
@@ -73,7 +72,7 @@ public class ConnectingToBitalino {
 
 		panel_1.add(label_1);
 
-		JTextField textField_1 = new JTextField ();
+		textField_1 = new JTextField ();
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.setBackground(Color.GRAY);
 		textField_1.setForeground(Color.BLACK);
@@ -130,6 +129,7 @@ public class ConnectingToBitalino {
 				panel_3.add(horizontalStrut_b, BorderLayout.EAST);
 				panel_3.setVisible(false);
 				panel_3.setVisible(true);
+				textField_1.setEnabled(false);
 				iterate();
 			}
 		});
@@ -171,6 +171,7 @@ public class ConnectingToBitalino {
 		panel_3.add(button_1,BorderLayout.CENTER);
 		panel_3.add(horizontalStrut_5,BorderLayout.EAST);
 		panel_3.add(horizontalStrut_6,BorderLayout.WEST);
+		textField_1.setEnabled(true);
 	}
 	public void successfullyConnected() {
 		f.dispose();
