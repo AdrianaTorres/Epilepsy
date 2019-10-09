@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FileManager {
 	private static String comment;
-	public FileManager(){
+	public static void configure(){
 		String path=System.getProperty("user.dir");		
 		String configLog=path+"\\config log.txt";
 		System.out.println(configLog);
@@ -52,29 +52,31 @@ public class FileManager {
 			}
 		}
 	}
-	public boolean isConfigured() {
+	public static boolean isConfigured() {
 		String path=System.getProperty("user.dir");		
 		String configLog=path+"\\config log.txt";
 		System.out.println(configLog);
 		File conf= new File(configLog);
 		return conf.isFile();
 	}
-	public static String readUserConfig() {
+	public static String[] readUserConfig() {
 		File manager= new File(System.getProperty("user.dir")+"\\config log.txt");
-		String record;
+		String[] record= new String[5];
 		BufferedReader data=null;
 		try {
 			data= new BufferedReader(new InputStreamReader(new FileInputStream(manager)));
-			record="";
 			String readLine="";
-			
+			int i=0;
 			while((readLine=data.readLine())!= null) {
-				record=record+readLine+" ";
+				if(readLine!=null) {
+					record[i]=readLine;
+					i++;
+				}
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			record="";
+			record=null;
 		}finally {
 			try {
 				data.close();

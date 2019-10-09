@@ -3,7 +3,6 @@ package guiPatient;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
@@ -14,10 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
-import mainMethodPatient.MainPatient;
-
+import mainMethodPatient.UserProfile;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -37,7 +35,7 @@ public class UserConfiguration {
 	private JPanel contentPane;
 	private JFrame f = new JFrame();
 
-	public UserConfiguration() {
+	public UserConfiguration(UserProfile up) {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(200, 400, 750, 420);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -75,7 +73,7 @@ public class UserConfiguration {
 		JLabel label = new JLabel("Please Configure your device:");
 		label.setFont(ui);
 		label.setForeground(Color.WHITE);
-		label.setHorizontalTextPosition(label.CENTER);
+		label.setHorizontalTextPosition(SwingConstants.CENTER);
 
 		panel.add(label);
 
@@ -126,7 +124,7 @@ public class UserConfiguration {
 		try {
 			BufferedImage nominal;
 			nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\logo.jpg"));
-			Image tmp = nominal.getScaledInstance(160, 160, nominal.SCALE_SMOOTH);
+			Image tmp = nominal.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
 		    BufferedImage dimg = new BufferedImage(160, 160, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2d = dimg.createGraphics();
 		    g2d.drawImage(tmp, 0, 0, null);
@@ -251,7 +249,7 @@ public class UserConfiguration {
 				}else {
 					data[4]="f";
 				}
-				MainPatient.configureUser(data);
+				up.createProfile(data);
 				f.dispose();
 			}
 		});
@@ -270,6 +268,7 @@ public class UserConfiguration {
 		
 		panel_2.add(button_1);
 		panel_2.add(button_2);
+		f.setVisible(true);
 	}
 
 }

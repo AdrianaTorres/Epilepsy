@@ -1,48 +1,34 @@
 package guiPatient;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
+import mainMethodPatient.UserProfile;
+import optimizedGraphics.XYPanel;
 import java.awt.GridBagLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.GridLayout;
-import javax.swing.border.EtchedBorder;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class GuiPatient extends JFrame {
-
-	private RealTimeGraph ecg;
-	private RealTimeGraph eeg;
+public class GuiPatient {
+	private JFrame f =new JFrame();
 	private JPanel contentPane;
 	private JTextField text1;
 	private JTextField text2;
@@ -54,15 +40,15 @@ public class GuiPatient extends JFrame {
 	private JPanel panel_6;
 	private JPanel panel_7;
 	private static int sufferedSymptoms;
-	public GuiPatient(double [] time1, double []eegInput, double []time2, double[] ecgInput ,String name, String surname,int weight, char gender,int age) {
+	public GuiPatient(UserProfile user) {
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		f.setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
-		setContentPane(contentPane);
+		f.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		super.setExtendedState(super.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
@@ -78,16 +64,16 @@ public class GuiPatient extends JFrame {
 		panel_6 = new JPanel();
 		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_6.setLayout(new BorderLayout());
-		eeg=new RealTimeGraph(time1,eegInput, "Electro Encephalograph","time","voltage? WTF do we even read here?", "sensor output");
-		panel_6.add(eeg.getGraph().getContentPane(),BorderLayout.CENTER);
+		XYPanel xypanel_1 = new XYPanel(user, "ECG monitor");
+		panel_6.add(xypanel_1);
 
 		panel_5.add(panel_6);
 
 		panel_7 = new JPanel();
 		panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_7.setLayout(new BorderLayout());
-		ecg=new RealTimeGraph(time2,ecgInput, "Electro Cardiogram","time","voltage? WTF do we even read here?", "sensor output");
-		panel_7.add(ecg.getGraph().getContentPane(),BorderLayout.CENTER);
+		XYPanel xypanel_2 = new XYPanel(user, "EEG monitor");
+		panel_7.add(xypanel_2);
 
 		panel_5.add(panel_7);
 
@@ -161,7 +147,7 @@ public class GuiPatient extends JFrame {
 		title.setForeground(Color.WHITE);
 		title.setFont(new Font("Segoe UI",80,15));
 		panel_1.setLayout(new GridLayout(1,3));
-		panel_1.add(title,LEFT_ALIGNMENT);
+		panel_1.add(title,Component.LEFT_ALIGNMENT);
 		JLabel devBuild=new JLabel("devBuild alpha 2.0");
 		devBuild.setForeground(Color.white);
 		devBuild.setFont(new Font("Segoe UI",80,15));
@@ -187,7 +173,7 @@ public class GuiPatient extends JFrame {
 
 		try {
 			BufferedImage nominal;
-			if(gender=='m') {
+			if(user.getGender()=='m') {
 				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalMale.jpg"));
 			}else {
 				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalFemale.jpg"));
@@ -228,7 +214,7 @@ public class GuiPatient extends JFrame {
 				/*Send information here*/
 				try {
 					BufferedImage nominal;
-					if(gender=='m') {
+					if(user.getGender()=='m') {
 						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SpasticMale.jpg"));
 					}else {
 						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SpasticFemale.jpg"));
@@ -261,9 +247,10 @@ public class GuiPatient extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SymptomsTab s= new SymptomsTab();
+				s.SufferedSymptoms();
 				try {
 					BufferedImage nominal;
-					if(gender=='m') {
+					if(user.getGender()=='m') {
 						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SymptomsMale.jpg"));
 					}else {
 						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SymptomsFemale.jpg"));
@@ -291,11 +278,11 @@ public class GuiPatient extends JFrame {
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 2;
 		panel_9.add(btnNewButton, gbc_btnNewButton);
-		this.setAge(age);
-		this.setWeight(weight);
-		this.setName(name);
-		this.setSurName(surname);
-		super.setVisible(true);
+		this.setAge(user.getAge());
+		this.setWeight(user.getWeight());
+		this.setName(user.getName());
+		this.setSurName(user.getSurname());
+		f.setVisible(true);
 	}
 	public void setName(String name) {
 		this.text1.setText(name);
