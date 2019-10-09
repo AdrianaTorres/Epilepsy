@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import mainMethodPatient.MainPatient;
+
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultBoundedRangeModel;

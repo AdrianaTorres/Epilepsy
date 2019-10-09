@@ -15,11 +15,15 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.border.EmptyBorder;
+
+import mainMethodPatient.MainPatient;
+
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -84,24 +88,20 @@ public class MainScreen{
 		JButton button_1= new JButton("Start Recording");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ConnectingToBitalino c= new ConnectingToBitalino();
-				boolean isConnected =false;
-				if(isConnected) {
-					f.dispose();
-					c.successfullyConnected();
-				}else {
-					c.failedToConnect();
-				}
-				//get Data from bitalino
-				//GuiPatient g= new GuiPatient(time1, eegInput, time2, ecgInput, name, surname, weight, gender, age)
+				MainPatient.ConnectToBitalino();
 			}
 		});
 		JButton button_2= new JButton("Last report");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//read from file an archive
-				//GuiPatient g= new GuiPatient(time1, eegInput, time2, ecgInput, name, surname, weight, gender, age)
-				f.dispose();
+				//Create a file browser to get the path of the file and pass it down as an argument.
+				JFileChooser c = new JFileChooser();
+			      int rVal = c.showOpenDialog(f);
+			      if (rVal == JFileChooser.APPROVE_OPTION) {
+			        String path=c.getSelectedFile().getName();
+			        MainPatient.loadReport(path);
+					f.dispose();
+			      }
 			}
 		});
 		JButton button_3= new JButton("Report Symptoms");
