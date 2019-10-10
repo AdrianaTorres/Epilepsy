@@ -47,6 +47,7 @@ public class UserProfile {
 		this.weight=Integer.parseInt(userconfig[3]);
 		this.gender=userconfig[4].toCharArray()[0];
 		exists=true;
+		m=new BitalinoManager();
 	}
 	
 	public void initiateBitalino() {
@@ -58,12 +59,6 @@ public class UserProfile {
 		}else{
 			return false;
 		}
-	}
-	public List<Double>[] getECGData() {
-		return m.getECG();
-	}
-	public List<Double>[] getEEGData() {
-		return m.getEEG();
 	}
 	public String getName() {
 		return name;
@@ -94,6 +89,9 @@ public class UserProfile {
 	}
 	public void setGender(char gender) {
 		this.gender = gender;
+	}
+	public BitalinoManager getBitalinoManager() {
+		return this.m;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package guiPatient;
 
 import fileManager.FileManager;
+import mainMethodPatient.UserProfile;
 
 public class Tester {
 
@@ -30,9 +31,16 @@ public class Tester {
 				yAxis2[i]=Math.random()*100;
 			}
 		}*/
-		FileManager f= new FileManager();
+		/*FileManager f= new FileManager();
 		f.writeUserConfig("Fat", "Joe", 34, 120, 'm');
-		f.readUserConfig();
+		f.readUserConfig();*/
+		UserProfile up = new UserProfile();
+		up.setName("Test");
+		up.setSurname("Tester");
+		up.setAge(34);
+		up.setWeight(80);
+		up.setGender('f');
+		GuiPatient p = new GuiPatient(up);
 	}
 
 }

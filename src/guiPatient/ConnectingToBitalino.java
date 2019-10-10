@@ -144,12 +144,16 @@ public class ConnectingToBitalino {
 				model.setMaximum(100);
 				try {
 					while (i <= 100 ) {
-						model.setValue(i);
-						i++;
-						Thread.sleep(10);
-						if(i==100) {
-							model.setValue(0);
-							i=0;
+						if(!t.isInterrupted()) {
+							model.setValue(i);
+							i++;
+							Thread.sleep(10);
+							if(i==100) {
+								model.setValue(0);
+								i=0;
+							}
+						}else {
+							break;
 						}
 					}
 

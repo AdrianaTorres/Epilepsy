@@ -64,7 +64,7 @@ public class GuiPatient {
 		panel_6 = new JPanel();
 		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_6.setLayout(new BorderLayout());
-		XYPanel xypanel_1 = new XYPanel(user, "ECG monitor");
+		XYPanel xypanel_1 = new XYPanel(user.getBitalinoManager(), "ECG monitor");
 		panel_6.add(xypanel_1);
 
 		panel_5.add(panel_6);
@@ -72,7 +72,7 @@ public class GuiPatient {
 		panel_7 = new JPanel();
 		panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_7.setLayout(new BorderLayout());
-		XYPanel xypanel_2 = new XYPanel(user, "EEG monitor");
+		XYPanel xypanel_2 = new XYPanel(user.getBitalinoManager(), "EEG monitor");
 		panel_7.add(xypanel_2);
 
 		panel_5.add(panel_7);
