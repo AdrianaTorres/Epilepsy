@@ -25,6 +25,7 @@ import java.awt.Component;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.Box;
 
 
 public class GuiPatient {
@@ -178,8 +179,6 @@ public class GuiPatient {
 			}else {
 				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalFemale.jpg"));
 			}
-			
-			
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_4.add(picLabel);
 		} catch (IOException e) {
@@ -194,9 +193,9 @@ public class GuiPatient {
 		panel_4.add(panel_9);
 		GridBagLayout gbl_panel_9 = new GridBagLayout();
 		gbl_panel_9.columnWidths = new int[] {1};
-		gbl_panel_9.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_9.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_9.columnWeights = new double[]{1.0};
-		gbl_panel_9.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_9.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0};
 		panel_9.setLayout(gbl_panel_9);
 
 		JLabel lblStatus = new JLabel("Status:");
@@ -207,6 +206,42 @@ public class GuiPatient {
 		gbc_lblStatus.gridx = 0;
 		gbc_lblStatus.gridy = 0;
 		panel_9.add(lblStatus, gbc_lblStatus);
+		
+		JButton stop = new JButton("Stop recording");
+		stop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				f.dispose();
+				//method in main menu to save recorded data and reopen main window
+			}
+		});
+		stop.setForeground(Color.BLACK);
+		stop.setBackground(Color.GRAY);
+		stop.setFont(new Font("Segoe UI",Font.PLAIN,11));
+		GridBagConstraints gbc_lblStop = new GridBagConstraints();
+		gbc_lblStop.insets = new Insets(0, 0, 5, 0);
+		gbc_lblStop.gridx = 0;
+		gbc_lblStop.gridy = 2;
+		gbc_lblStop.fill = GridBagConstraints.HORIZONTAL;
+		panel_9.add(stop, gbc_lblStop);
+		
+		Component verticalStrut_1 = Box.createVerticalStrut(10);
+		Component verticalStrut_2 = Box.createVerticalStrut(10);
+		Component verticalStrut_3 = Box.createVerticalStrut(10);
+		GridBagConstraints gbc_lbVS_1 = new GridBagConstraints();
+		gbc_lbVS_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lbVS_1.gridx = 0;
+		gbc_lbVS_1.gridy = 1;
+		panel_9.add(verticalStrut_1, gbc_lbVS_1);
+		GridBagConstraints gbc_lbVS_2 = new GridBagConstraints();
+		gbc_lbVS_2.insets = new Insets(0, 0, 5, 0);
+		gbc_lbVS_2.gridx = 0;
+		gbc_lbVS_2.gridy = 3;
+		panel_9.add(verticalStrut_2, gbc_lbVS_2);
+		GridBagConstraints gbc_lbVS_3 = new GridBagConstraints();
+		gbc_lbVS_3.insets = new Insets(0, 0, 5, 0);
+		gbc_lbVS_3.gridx = 0;
+		gbc_lbVS_3.gridy = 5;
+		panel_9.add(verticalStrut_3, gbc_lbVS_3);
 
 		JButton btnNewButton_1 = new JButton("ALERT");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -240,7 +275,7 @@ public class GuiPatient {
 		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 3;
+		gbc_btnNewButton_1.gridy = 4;
 		panel_9.add(btnNewButton_1, gbc_btnNewButton_1);
 
 		JButton btnNewButton = new JButton("Report Symptoms");
@@ -269,14 +304,14 @@ public class GuiPatient {
 				}
 			}
 		});
-		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setForeground(Color.BLACK);
 		btnNewButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		btnNewButton.setBackground(Color.GRAY);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 2;
+		gbc_btnNewButton.gridy = 6;
 		panel_9.add(btnNewButton, gbc_btnNewButton);
 		this.setAge(user.getAge());
 		this.setWeight(user.getWeight());

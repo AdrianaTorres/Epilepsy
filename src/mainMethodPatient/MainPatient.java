@@ -9,32 +9,36 @@ import guiPatient.UserConfiguration;
 public class MainPatient {
 	
 	public static void main(String[] args) {
-		UserProfile up = new UserProfile();
+		UserProfile up=new UserProfile();
 		if(!up.configExists()) {
-			
 			UserConfiguration uc = new UserConfiguration(up);
 			while(!up.configExists()) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			MainScreen ms = new MainScreen();
+			MainScreen ms = new MainScreen(up);
 		}else {
-			MainScreen ms = new MainScreen();
+			MainScreen ms = new MainScreen(up);
 		}
 	}
-	public static void ConnectToBitalino() {
+	public static void ConnectToBitalino(UserProfile up) {
 		ConnectingToBitalino b= new ConnectingToBitalino();
 		//physically connect the bitalino
-		/*if(bitalino.isConnected()) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(up.getBitalinoManager().isConnected()) {
 			b.successfullyConnected();
-			GuiPatient g= new GuiPatient(time1, eegInput, time2, ecgInput, name, surname, weight, gender, age)
+			GuiPatient g= new GuiPatient(up);
 		}else {
 			b.failedToConnect();
-		}*/
+		}
 	}
 	public static void loadReport(String path) {
 		FileManager.readUserConfig();

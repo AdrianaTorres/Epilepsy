@@ -14,7 +14,7 @@ public class BitalinoManager implements BitalinoModel{
 
 	public boolean isConnected() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

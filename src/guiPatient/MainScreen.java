@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import mainMethodPatient.MainPatient;
+import mainMethodPatient.UserProfile;
+
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -28,7 +30,7 @@ public class MainScreen{
 	private JPanel contentPane;
 	private JFrame f;
 
-	public MainScreen() {
+	public MainScreen(UserProfile up) {
 		f= new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(100, 100, 850, 500);
@@ -65,7 +67,7 @@ public class MainScreen{
 		JButton button_1= new JButton("Start Recording");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MainPatient.ConnectToBitalino();
+				MainPatient.ConnectToBitalino(up);
 			}
 		});
 		JButton button_2= new JButton("Last report");
