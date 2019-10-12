@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class FileManager {
-	private static String comment;
 	public static void configure(){
 		String path=System.getProperty("user.dir");		
 		String configLog=path+"\\config log.txt";
@@ -130,11 +129,12 @@ public class FileManager {
 			
 		}
 	}
-	public static List[] readData(String path) {
-		ArrayList<Double> time1 = new ArrayList <Double>();
-		ArrayList<Double> time2 = new ArrayList <Double>();
-		ArrayList<Double> ecg = new ArrayList <Double>();
-		ArrayList<Double> eeg = new ArrayList <Double>();
+	public static Report readData(String path) {
+		List<Double> time1 = new ArrayList <Double>();
+		List<Double> time2 = new ArrayList <Double>();
+		List<Double> ecg = new ArrayList <Double>();
+		List<Double> eeg = new ArrayList <Double>();
+		String comment="";
 		
 		File manager = new File(path);
 		BufferedReader data= null;
@@ -188,15 +188,12 @@ public class FileManager {
 				System.out.println("could not close reader");
 				e.printStackTrace();
 			}
-			return new List[] {time1,ecg,time2,eeg};
+			return new Report ((new List[]{time1, ecg}),(new List[]{time2, eeg}),comment);
 		} catch (Exception e) {
 			System.out.println("could not read report");
 			e.printStackTrace();
 			return null;
 		}
 		
-	}
-	public static String getComments() {
-		return comment;
 	}
 }

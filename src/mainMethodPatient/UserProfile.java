@@ -17,7 +17,6 @@ public class UserProfile {
 	private int weight;
 	private char gender;
 	private boolean exists;
-	
 	public UserProfile() {
 		if(FileManager.isConfigured()) {
 			m=new BitalinoManager();

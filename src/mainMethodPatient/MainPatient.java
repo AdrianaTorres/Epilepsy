@@ -43,7 +43,6 @@ public class MainPatient {
 	public static void loadReport(String path) {
 		FileManager.readUserConfig();
 		FileManager.readData(path);
-		FileManager.getComments();
 		//I still have to create the data viewer to see the reports.
 	}
 
