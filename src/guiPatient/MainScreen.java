@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
 public class MainScreen{
 
 	private JPanel contentPane;
-	private JFrame f;
+	private static JFrame f;
 
 	public MainScreen(UserProfile up) {
 		f= new JFrame();
@@ -68,6 +68,7 @@ public class MainScreen{
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MainPatient.ConnectToBitalino(up);
+				f.setVisible(false);
 			}
 		});
 		JButton button_2= new JButton("Last report");
@@ -78,7 +79,7 @@ public class MainScreen{
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
 			        String path=c.getSelectedFile().getName();
 			        MainPatient.loadReport(path);
-					f.dispose();
+					f.setVisible(false);
 			      }
 			}
 		});
@@ -128,6 +129,9 @@ public class MainScreen{
 		panel_7.add(new JLabel(""));
 		panel_7.add(button_2);
 		panel_7.add(new JLabel(""));
+		f.setVisible(true);
+	}
+	public static void invokeMe() {
 		f.setVisible(true);
 	}
 }

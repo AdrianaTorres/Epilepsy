@@ -39,7 +39,7 @@ public class SymptomsTab {
 	private JCheckBox cbx_11;
 	private JCheckBox cbx_12;
 
-	public SymptomsTab() {
+	public SymptomsTab(GuiPatient g) {
 		f= new JFrame();
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -314,7 +314,7 @@ public class SymptomsTab {
 		JButton button_1 = new JButton("Submit");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GuiPatient.setSymptoms(SufferedSymptoms());
+				g.setSymptoms(SufferedSymptoms());
 				f.dispose();
 			}
 		});
@@ -339,45 +339,45 @@ public class SymptomsTab {
 		
 		f.setVisible(true);
 	}
-	public int SufferedSymptoms() {
-		int counter =0;
+	public String SufferedSymptoms() {
+		String symptomsList="\n";
 		if(cbx_1.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Odd feelings\n";
 		}
 		if(cbx_2.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Smelt /tasted somehting anomalous\n";
 		}
 		if(cbx_3.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Felt something was out of place\n";
 		}
 		if(cbx_4.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Feelings of fuzzyness\n";
 		}
 		if(cbx_5.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Recent memory loss\n";
 		}
 		if(cbx_6.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Frequent daydreaming\n";
 		}
 		if(cbx_7.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Uncontrolled limb movements\n";
 		}
 		if(cbx_8.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Loss of equilibrium with consequential accidental falls\n";
 		}
 		if(cbx_9.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Feelings of numbness\n";
 		}
 		if(cbx_10.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Experienced Headaches\n";
 		}
 		if(cbx_11.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Feelings of weakness or Sleepyness\n";
 		}
 		if(cbx_12.isSelected()) {
-			counter++;
+			symptomsList=symptomsList+"-Experienced some sort of incontinence\n";
 		}
-		return counter;
+		return symptomsList;
 	}
 
 }

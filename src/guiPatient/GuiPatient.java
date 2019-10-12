@@ -40,7 +40,6 @@ public class GuiPatient {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
-	private static int sufferedSymptoms;
 	public GuiPatient(UserProfile user) {
 
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -211,6 +210,8 @@ public class GuiPatient {
 		stop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				f.dispose();
+				MainScreen.invokeMe();
+				
 				//method in main menu to save recorded data and reopen main window
 			}
 		});
@@ -281,7 +282,7 @@ public class GuiPatient {
 		JButton btnNewButton = new JButton("Report Symptoms");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SymptomsTab s= new SymptomsTab();
+				SymptomsTab s= new SymptomsTab(GuiPatient.this);
 				s.SufferedSymptoms();
 				try {
 					BufferedImage nominal;
@@ -344,11 +345,10 @@ public class GuiPatient {
 		textArea.setVisible(false);
 		textArea.setVisible(true);
 	}
-	public static void setSymptoms(int s) {
-		sufferedSymptoms=s;
-	}
-	public static int getSymptoms() {
-		return sufferedSymptoms;
+	public void setSymptoms(String s) {
+		GuiPatient.this.textArea.setText(GuiPatient.this.textArea.getText()+s);
+		textArea.setVisible(false);
+		textArea.setVisible(true);
 	}
 
 }

@@ -7,6 +7,7 @@ public class Report {
 	private List <Double>[] ecgData;
 	private List <Double>[] eegData;
 	private String comments;
+	private String symptoms;
 	
 	public Report (List<Double>[] ecg,List<Double>[] eeg,String comments) {
 		this.ecgData=ecg;
