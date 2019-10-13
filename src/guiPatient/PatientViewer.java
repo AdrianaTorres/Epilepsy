@@ -32,6 +32,8 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.Box;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class PatientViewer {
@@ -46,7 +48,6 @@ public class PatientViewer {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
-	private static int sufferedSymptoms;
 	
 	private double[]timeEEG;
 	private double[]timeECG;
@@ -59,8 +60,13 @@ public class PatientViewer {
 	private StaticGraph eegGraph;
 	private StaticGraph ecgGraph;
 	
+	private int defaultShiftECG;
+	private int defaultShiftEEG;
+	
 	public PatientViewer(UserProfile user,Report rep) {
-
+		
+		defaultShiftECG=50;
+		defaultShiftEEG=50;
 		indexECG=0;
 		indexEEG=0;
 		timeEEG=new double[rep.getEegData()[0].size()];
@@ -127,7 +133,7 @@ public class PatientViewer {
 				if(display[0]!=null) {
 					panel_6.remove(eegGraph);
 					eegGraph=new StaticGraph(display,"EEG");
-					panel_6.add(eegGraph);
+					panel_6.add(eegGraph,BorderLayout.CENTER);
 				}
 			}
 		});
@@ -141,6 +147,36 @@ public class PatientViewer {
 		panel_6.add(button_2,BorderLayout.SOUTH);
 		panel_6.add(button_1,BorderLayout.SOUTH);
 		
+		JLabel label_1= new JLabel("Shifting Distance:");
+		label_1.setForeground(Color.WHITE);
+		label_1.setBackground(Color.BLACK);
+		label_1.setFont(new Font("Segoue UI",Font.PLAIN,11));
+		
+		panel_6.add(label_1,BorderLayout.SOUTH);
+		
+		JTextField text_1 = new JTextField();
+		text_1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(!text_1.getText().equals("")) {
+					try {
+						int shift =Integer.parseInt(text_1.getText());
+						PatientViewer.this.defaultShiftEEG=shift;
+						reScaleEEG();
+					}catch(Exception e) {
+						e.printStackTrace();
+						System.out.println("Can u not break my app plz?");
+					}
+				}
+			}
+		});
+		text_1.setFont(new Font("Segoe UI", Font.PLAIN,11));
+		text_1.setBackground(Color.DARK_GRAY);
+		text_1.setForeground(Color.WHITE);
+		text_1.setText(""+this.defaultShiftEEG);
+		
+		panel_6.add(text_1,BorderLayout.SOUTH);
+		
 		panel_5.add(panel_6);
 
 		panel_7 = new JPanel();
@@ -148,7 +184,7 @@ public class PatientViewer {
 		panel_7.setLayout(new BorderLayout());
 		panel_7.setBackground(Color.BLACK);
 		
-		StaticGraph ecgGraph=new StaticGraph(chartEEGData("next"), "Ecg");
+		ecgGraph=new StaticGraph(chartEEGData("next"), "Ecg");
 		
 		panel_7.add(ecgGraph,BorderLayout.CENTER);
 		
@@ -183,6 +219,36 @@ public class PatientViewer {
 		
 		panel_7.add(button_4,BorderLayout.SOUTH);
 		panel_7.add(button_3,BorderLayout.SOUTH);
+		
+		JLabel label_2= new JLabel("Shifting Distance:");
+		label_2.setForeground(Color.WHITE);
+		label_2.setBackground(Color.BLACK);
+		label_2.setFont(new Font("Segoue UI",Font.PLAIN,11));
+		
+		panel_7.add(label_2,BorderLayout.SOUTH);
+		
+		JTextField text_2 = new JTextField();
+		text_2.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(!text_2.getText().equals("")) {
+					try {
+						int shift =Integer.parseInt(text_2.getText());
+						PatientViewer.this.defaultShiftECG=shift;
+						reScaleECG();
+					}catch(Exception e) {
+						e.printStackTrace();
+						System.out.println("Can u not break my app plz?");
+					}
+				}
+			}
+		});
+		text_2.setFont(new Font("Segoe UI", Font.PLAIN,11));
+		text_2.setBackground(Color.DARK_GRAY);
+		text_2.setForeground(Color.WHITE);
+		text_2.setText(""+this.defaultShiftECG);
+		
+		panel_7.add(text_2,BorderLayout.SOUTH);
 
 		panel_5.add(panel_7);
 
@@ -382,34 +448,27 @@ public class PatientViewer {
 		textArea.setVisible(false);
 		textArea.setVisible(true);
 	}
-	public static void setSymptoms(int s) {
-		sufferedSymptoms=s;
-	}
-	public static int getSymptoms() {
-		return sufferedSymptoms;
-	}
 	private List<Double>[] chartECGData(String action){
-		int defaultShift=50;
-		double[] shiftedTime=new double[defaultShift];
-		double[] shiftedData=new double[defaultShift];
+		double[] shiftedTime=new double[defaultShiftECG];
+		double[] shiftedData=new double[defaultShiftECG];
 		if(action.equals("next")) {
-			if(indexECG+defaultShift<ECGdata.length-1) {
-				for (int i = 0; i < defaultShift; i++) {
+			if(indexECG+defaultShiftECG<ECGdata.length-1) {
+				for (int i = 0; i < defaultShiftECG; i++) {
 					shiftedTime[i]=this.timeECG[indexECG+i];
 					shiftedData[i]=this.ECGdata[indexECG+i];
 				}
-				indexECG=indexECG+defaultShift;
+				indexECG=indexECG+defaultShiftECG;
 			}else {
 				shiftedTime=null;
 				shiftedData=null;
 			}
 		}else {
-			if(indexECG-defaultShift>=0) {
-				for (int i = 0; i < defaultShift; i++) {
-					shiftedTime[i]=this.timeECG[indexECG-defaultShift+i];
-					shiftedData[i]=this.ECGdata[indexECG-defaultShift+i];
+			if(indexECG-defaultShiftECG>=0) {
+				for (int i = 0; i < defaultShiftECG; i++) {
+					shiftedTime[i]=this.timeECG[indexECG-defaultShiftECG+i];
+					shiftedData[i]=this.ECGdata[indexECG-defaultShiftECG+i];
 				}
-				indexECG=indexECG-defaultShift;
+				indexECG=indexECG-defaultShiftECG;
 			}else {
 				shiftedTime=null;
 				shiftedData=null;
@@ -418,27 +477,27 @@ public class PatientViewer {
 		return godLeftMeUnfinished(shiftedTime, shiftedData);
 	}
 	private List<Double>[] chartEEGData(String action){
-		int defaultShift=50;
-		double[] shiftedTime=new double[defaultShift];
-		double[] shiftedData=new double[defaultShift];
+		
+		double[] shiftedTime=new double[defaultShiftEEG];
+		double[] shiftedData=new double[defaultShiftEEG];
 		if(action.equals("next")) {
-			if(indexEEG+defaultShift<EEGdata.length-1) {
-				for (int i = 0; i < defaultShift; i++) {
+			if(indexEEG+defaultShiftEEG<EEGdata.length-1) {
+				for (int i = 0; i < defaultShiftEEG; i++) {
 					shiftedTime[i]=this.timeEEG[indexECG+i];
 					shiftedData[i]=this.EEGdata[indexECG+i];
 				}
-				indexEEG=indexEEG+defaultShift;
+				indexEEG=indexEEG+defaultShiftEEG;
 			}else {
 				shiftedTime=null;
 				shiftedData=null;
 			}
 		}else {
-			if(indexEEG-defaultShift>=0) {
-				for (int i = 0; i < defaultShift; i++) {
-					shiftedTime[i]=this.timeEEG[indexEEG-defaultShift+i];
-					shiftedData[i]=this.EEGdata[indexEEG-defaultShift+i];
+			if(indexEEG-defaultShiftEEG>=0) {
+				for (int i = 0; i < defaultShiftEEG; i++) {
+					shiftedTime[i]=this.timeEEG[indexEEG-defaultShiftEEG+i];
+					shiftedData[i]=this.EEGdata[indexEEG-defaultShiftEEG+i];
 				}
-				indexEEG=indexEEG-defaultShift;
+				indexEEG=indexEEG-defaultShiftEEG;
 			}else {
 				shiftedTime=null;
 				shiftedData=null;
@@ -458,5 +517,33 @@ public class PatientViewer {
 			data1.add(data[i]);
 		}
 		return new List [] {time1, data1};
+	}
+	private void reScaleECG() {
+		List <Double> time1= new ArrayList <Double> ();
+		List <Double> data1= new ArrayList <Double> ();
+		if(defaultShiftECG<this.ECGdata.length) {
+			this.indexECG=0;
+			for (int i =this.indexECG ; i < defaultShiftECG; i++) {
+				time1.add(this.timeECG[i]);
+				data1.add(this.ECGdata[i]);
+			}
+			this.ecgGraph=new StaticGraph(new List[] {time1,data1}, "ECG");
+			panel_7.remove(ecgGraph);
+			panel_7.add(ecgGraph);
+		}
+	}
+		private void reScaleEEG() {
+			List <Double> time1= new ArrayList <Double> ();
+			List <Double> data1= new ArrayList <Double> ();
+			if(defaultShiftEEG<this.EEGdata.length) {
+				this.indexEEG=0;
+				for (int i =this.indexEEG ; i < defaultShiftEEG; i++) {
+					time1.add(this.timeEEG[i]);
+					data1.add(this.EEGdata[i]);
+				}
+				this.eegGraph=new StaticGraph(new List[] {time1,data1}, "EEG");
+				panel_7.remove(ecgGraph);
+				panel_7.add(ecgGraph);
+			}
 	}
 }
