@@ -25,3 +25,11 @@ So, once the bitalino class is working we can move into the file shenanigans and
 
 So, hopefully soon enough we get the bitalino working. plz <3
   
+  
+17/10/19
+So far we have done the following: we have created a graphical interface that allows monitoring data in real time and that it is also able to store said data in text format in files in the system. We have also worked on the bitalino manager and we believe it should work (hopefully) although we still have to test that everything is working. Looks promising though... 
+We also have established that from now on the parts corresponding to the doctor and the server will be done in separate projects which means that the GUIHospital should be migrated sometime soon to another project. So, the next milestones to compete this project are the following:
+
+	I)Ensure that the bitalino works fine and that the files are written and read correctly from the file system.
+	II) Start working on the server, the server should have the ability to store files, and to view data in real time just as the patient does. Reminder, the fancy list selection method should prioritize those patients with the worst conditions.
+	III) work on the doctor. The doctor is a user just as the rest that can only view reports, no real time fancyness here. If all the methods of the patient project are done and working, the doctor should only be a matter of copy pasting the necessary methods. The idea is to browse through internet the files that are stored in the server and send them to be read by the doctor. Just changes the functionality of the connection. (small price to pay for salvation) 
