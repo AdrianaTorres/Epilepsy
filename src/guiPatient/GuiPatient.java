@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+
+import mainMethodPatient.MainPatient;
 import mainMethodPatient.UserProfile;
 import optimizedGraphics.XYPanel;
 import java.awt.GridBagLayout;
@@ -211,7 +213,7 @@ public class GuiPatient {
 			public void actionPerformed(ActionEvent arg0) {
 				f.dispose();
 				MainScreen.invokeMe();
-				
+				MainPatient.stopRecording(user, textArea.getText());
 				//method in main menu to save recorded data and reopen main window
 			}
 		});

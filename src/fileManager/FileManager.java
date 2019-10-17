@@ -86,7 +86,7 @@ public class FileManager {
 		}
 		return record;
 	}
-	public void writeData(List<Double>[]ecg, List<Double>[]eeg, String comments) {
+	public static void writeData(List<Double>[]ecg, List<Double>[]eeg, String comments) {
 		int counter=1;
 		File manager = new File(System.getProperty("user.dir")+"\\reports\\report_"+counter);
 		while(manager.isFile()) {

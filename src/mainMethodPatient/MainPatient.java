@@ -29,5 +29,10 @@ public class MainPatient {
 		FileManager.readData(path);
 		//I still have to create the data viewer to see the reports.
 	}
+	public static void stopRecording(UserProfile up, String comments) {
+		up.getBitalinoManager().stop();
+		FileManager.writeData(up.getBitalinoManager().getECGData(), up.getBitalinoManager().getEEGData(), comments);
+		
+	}
 
 }
