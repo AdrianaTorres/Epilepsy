@@ -24,22 +24,6 @@ public class MainPatient {
 			MainScreen ms = new MainScreen(up);
 		}
 	}
-	public static void ConnectToBitalino(UserProfile up) {
-		ConnectingToBitalino b= new ConnectingToBitalino();
-		//physically connect the bitalino
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(up.getBitalinoManager().isConnected()) {
-			b.successfullyConnected();
-			GuiPatient g= new GuiPatient(up);
-		}else {
-			b.failedToConnect();
-		}
-	}
 	public static void loadReport(String path) {
 		FileManager.readUserConfig();
 		FileManager.readData(path);

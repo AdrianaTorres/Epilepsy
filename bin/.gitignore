@@ -1,8 +1,3 @@
-/guiPatient/
-/guiHospital/
-/fileManager/
 /bitalinoManager/
-/connectionManager/
 /mainMethodPatient/
-/mainMethodHospital/
-/optimizedGraphics/
+/guiPatient/

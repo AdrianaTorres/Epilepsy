@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Sloth Thy Lord/Documents/Core Programs/Eclipse + Github + Dia/Nueva carpeta/Eclipse/telemedicine_gui_stats/lib/VectorGraphics2D-0.11.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Sloth Thy Lord/Documents/Core Programs/Eclipse + Github + Dia/Nueva carpeta/Eclipse/telemedicine_gui_stats/lib/xchart-3.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/bluecove-2.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

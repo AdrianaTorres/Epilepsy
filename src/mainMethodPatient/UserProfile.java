@@ -49,8 +49,8 @@ public class UserProfile {
 		m=new BitalinoManager();
 	}
 	
-	public void initiateBitalino() {
-		m.connect();
+	public void initiateBitalino(String mac) {
+		m.connect(mac);
 	}
 	public boolean bitalinoIsconnected() {
 		if(m.isConnected()) {

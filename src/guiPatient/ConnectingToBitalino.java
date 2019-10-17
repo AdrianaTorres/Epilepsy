@@ -14,6 +14,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import mainMethodPatient.UserProfile;
+import optimizedGraphics.UpdateWorker;
+
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultBoundedRangeModel;
@@ -34,7 +37,9 @@ public class ConnectingToBitalino {
 	private Component horizontalStrut_6;
 	private Component horizontalStrut_a;
 	private Component horizontalStrut_b;
-	public ConnectingToBitalino() {
+	private UserProfile up;
+	public ConnectingToBitalino(UserProfile up) {
+		this.up=up;
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(500, 100, 750, 300);
 		f.setResizable(false);
@@ -130,6 +135,7 @@ public class ConnectingToBitalino {
 				panel_3.setVisible(false);
 				panel_3.setVisible(true);
 				textField_1.setEnabled(false);
+				up.initiateBitalino(textField_1.getText());
 				iterate();
 			}
 		});
@@ -140,10 +146,24 @@ public class ConnectingToBitalino {
 		t = new Thread(new Runnable() {
 			public void run() {
 				int i = 1;
+				long time =System.currentTimeMillis();
 				model.setMinimum(0);
 				model.setMaximum(100);
 				try {
 					while (i <= 100 ) {
+						long currentTime=System.currentTimeMillis();
+						if(up.bitalinoIsconnected()) {
+							Thread bit = new Thread(up.getBitalinoManager());
+							bit.start();
+							f.dispose();
+							GuiPatient g= new GuiPatient(up);
+							t.interrupt();
+						}
+						System.out.println(currentTime-time+"	"+time+"	"+currentTime);
+						if((currentTime-time)/7500>0.5) {
+							System.out.println("paso!");
+							failedToConnect();
+						}
 						if(!t.isInterrupted()) {
 							model.setValue(i);
 							i++;
@@ -176,6 +196,8 @@ public class ConnectingToBitalino {
 		panel_3.add(horizontalStrut_5,BorderLayout.EAST);
 		panel_3.add(horizontalStrut_6,BorderLayout.WEST);
 		textField_1.setEnabled(true);
+		contentPane.setVisible(false);
+		contentPane.setVisible(true);
 	}
 	public void successfullyConnected() {
 		f.dispose();

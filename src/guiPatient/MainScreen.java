@@ -67,7 +67,7 @@ public class MainScreen{
 		JButton button_1= new JButton("Start Recording");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MainPatient.ConnectToBitalino(up);
+				ConnectingToBitalino c = new ConnectingToBitalino(up);
 				f.setVisible(false);
 			}
 		});

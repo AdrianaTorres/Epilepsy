@@ -483,13 +483,21 @@ public class PatientViewer {
 		if(action.equals("next")) {
 			if(indexEEG+defaultShiftEEG<EEGdata.length-1) {
 				for (int i = 0; i < defaultShiftEEG; i++) {
-					shiftedTime[i]=this.timeEEG[indexECG+i];
-					shiftedData[i]=this.EEGdata[indexECG+i];
+					shiftedTime[i]=this.timeEEG[indexEEG+i];
+					shiftedData[i]=this.EEGdata[indexEEG+i];
 				}
 				indexEEG=indexEEG+defaultShiftEEG;
 			}else {
-				shiftedTime=null;
-				shiftedData=null;
+				//Check this, this is supposed to return 0 values if the graph blows over the range of the data.
+				int zeroPad=defaultShiftEEG-(EEGdata.length-1);
+				for (int i = indexEEG; i < EEGdata.length-1; i++) {
+					shiftedTime[i]=this.timeEEG[indexEEG+i];
+					shiftedData[i]=this.EEGdata[indexEEG+i];
+				}
+				for (int i = zeroPad; i < defaultShiftEEG; i++) {
+					shiftedTime[i]=0;
+					shiftedData[i]=0;
+				}
 			}
 		}else {
 			if(indexEEG-defaultShiftEEG>=0) {
