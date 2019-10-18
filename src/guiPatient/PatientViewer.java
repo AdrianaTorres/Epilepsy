@@ -28,6 +28,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 import java.awt.Component;
+import java.awt.FlowLayout;
+
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -72,13 +74,17 @@ public class PatientViewer {
 		timeEEG=new double[rep.getEegData()[0].size()];
 		EEGdata=new double[rep.getEegData()[0].size()];
 		
-		timeECG=new double[rep.getEegData()[1].size()];
-		timeECG=new double[rep.getEegData()[1].size()];
+		timeECG=new double[rep.getEcgData()[1].size()];
+		ECGdata=new double[rep.getEcgData()[1].size()];
+		
+		System.out.println(timeEEG.length+" "+EEGdata.length+" "+timeECG.length+" "+ECGdata.length);
+		
 		Iterator iterator_1 =rep.getEcgData()[1].iterator();
 		int i=0;
 		for (Iterator iterator = rep.getEcgData()[0].iterator(); iterator.hasNext();) {
 			timeECG[i]=(double)iterator.next();
 			ECGdata[i]=(double)iterator_1.next();
+			System.out.println(timeECG[i]+"  "+ECGdata[i]);
 			i++;
 		}
 		i=0;
@@ -113,6 +119,12 @@ public class PatientViewer {
 		panel_6.setLayout(new BorderLayout());
 		panel_6.setBackground(Color.BLACK);
 		
+		JPanel panel_11 = new JPanel();
+		panel_11.setLayout(new FlowLayout());
+		panel_11.setBackground(Color.BLACK);
+		
+		panel_6.add(panel_11,BorderLayout.SOUTH);
+		
 		eegGraph=new StaticGraph(chartEEGData("next"),"EEG");
 		panel_6.add(eegGraph,BorderLayout.CENTER);
 		JButton button_1=new JButton("next");
@@ -140,19 +152,21 @@ public class PatientViewer {
 		
 		button_1.setForeground(Color.WHITE);
 		button_1.setBackground(Color.DARK_GRAY);
+		button_2.setForeground(Color.WHITE);
+		button_2.setBackground(Color.DARK_GRAY);
 		
 		button_1.setFont(new Font("Segoe UI",Font.PLAIN,11));
 		button_2.setFont(new Font("Segoe UI",Font.PLAIN,11));
 		
-		panel_6.add(button_2,BorderLayout.SOUTH);
-		panel_6.add(button_1,BorderLayout.SOUTH);
+		panel_11.add(button_2,BorderLayout.SOUTH);
+		panel_11.add(button_1,BorderLayout.SOUTH);
 		
 		JLabel label_1= new JLabel("Shifting Distance:");
 		label_1.setForeground(Color.WHITE);
 		label_1.setBackground(Color.BLACK);
 		label_1.setFont(new Font("Segoue UI",Font.PLAIN,11));
 		
-		panel_6.add(label_1,BorderLayout.SOUTH);
+		panel_11.add(label_1,BorderLayout.SOUTH);
 		
 		JTextField text_1 = new JTextField();
 		text_1.addKeyListener(new KeyAdapter() {
@@ -175,7 +189,7 @@ public class PatientViewer {
 		text_1.setForeground(Color.WHITE);
 		text_1.setText(""+this.defaultShiftEEG);
 		
-		panel_6.add(text_1,BorderLayout.SOUTH);
+		panel_11.add(text_1,BorderLayout.SOUTH);
 		
 		panel_5.add(panel_6);
 

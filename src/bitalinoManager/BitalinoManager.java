@@ -1,5 +1,6 @@
 package bitalinoManager;
 
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -88,6 +89,20 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 			System.out.println("failed to close properly bitalino");
 			e.printStackTrace();
 		}
+	}
+	public void start() {
+		try {
+			this.bitalino.start(new int[] {2,4});
+		} catch (Throwable e) {
+			System.out.println("could not inititate channels...");
+			e.printStackTrace();
+		}
+	}
+	public void purgeData() {
+		ECGtime=new ArrayList<>();
+		EEGtime=new ArrayList<>();
+		ECGdata=new ArrayList<>();
+		EEGdata=new ArrayList<>();
 	}
 
 }

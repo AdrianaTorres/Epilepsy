@@ -39,6 +39,7 @@ public class UserProfile {
 	}
 	
 	public void createProfile(String[]userconfig) {
+		FileManager.configure();
 		FileManager.writeUserConfig(userconfig[0], userconfig[1], Integer.parseInt(userconfig[2]), Integer.parseInt(userconfig[3]), userconfig[4].toCharArray()[0]);
 		this.name=userconfig[0];
 		this.surname=userconfig[1];

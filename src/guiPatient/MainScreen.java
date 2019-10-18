@@ -67,18 +67,22 @@ public class MainScreen{
 		JButton button_1= new JButton("Start Recording");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ConnectingToBitalino c = new ConnectingToBitalino(up);
+				if(up.bitalinoIsconnected()) {
+					GuiPatient g = new GuiPatient(up);
+				}else {
+					ConnectingToBitalino c = new ConnectingToBitalino(up);
+				}
 				f.setVisible(false);
 			}
 		});
 		JButton button_2= new JButton("Last report");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser c = new JFileChooser();
+				JFileChooser c = new JFileChooser(System.getProperty("user.dir")+"\\reports");
 			      int rVal = c.showOpenDialog(f);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
-			        String path=c.getSelectedFile().getName();
-			        MainPatient.loadReport(path);
+			        String path=c.getSelectedFile().getAbsolutePath();
+			        MainPatient.loadReport(path,new UserProfile());
 					f.setVisible(false);
 			      }
 			}

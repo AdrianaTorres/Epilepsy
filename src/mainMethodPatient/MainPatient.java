@@ -4,6 +4,7 @@ import fileManager.FileManager;
 import guiPatient.ConnectingToBitalino;
 import guiPatient.GuiPatient;
 import guiPatient.MainScreen;
+import guiPatient.PatientViewer;
 import guiPatient.UserConfiguration;
 
 public class MainPatient {
@@ -24,14 +25,14 @@ public class MainPatient {
 			MainScreen ms = new MainScreen(up);
 		}
 	}
-	public static void loadReport(String path) {
-		FileManager.readUserConfig();
-		FileManager.readData(path);
-		//I still have to create the data viewer to see the reports.
+	public static void loadReport(String path,UserProfile up) {
+		System.out.println(FileManager.readData(path).toString());
+		PatientViewer p= new PatientViewer(up, FileManager.readData(path));
 	}
 	public static void stopRecording(UserProfile up, String comments) {
 		up.getBitalinoManager().stop();
 		FileManager.writeData(up.getBitalinoManager().getECGData(), up.getBitalinoManager().getEEGData(), comments);
+		up.getBitalinoManager().purgeData();
 		
 	}
 

@@ -1,6 +1,7 @@
 package fileManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Report {
@@ -33,5 +34,11 @@ public class Report {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Report [ecgData=" + Arrays.toString(ecgData) + ", eegData=" + Arrays.toString(eegData) + ", comments="
+				+ comments + ", symptoms=" + symptoms + "]";
+	}
+
 }

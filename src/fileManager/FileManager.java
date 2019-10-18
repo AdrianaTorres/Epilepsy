@@ -14,13 +14,18 @@ public class FileManager {
 	public static void configure(){
 		String path=System.getProperty("user.dir");		
 		String configLog=path+"\\config log.txt";
+		String reportDir=path+"\\reports";
 		System.out.println(configLog);
 		File conf= new File(configLog);
+		File report= new File(reportDir);
 		if(!conf.isFile()) {
 			try {
 				conf.createNewFile();
-				conf = new File(path+"\\reports");
-				conf.mkdir();
+				if(!report.isDirectory()) {
+					System.out.println("Creating report Directory...");
+					report.mkdir();
+				}
+				System.out.println(conf.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.out.println("not possible to create config File or folder...");
@@ -88,13 +93,15 @@ public class FileManager {
 	}
 	public static void writeData(List<Double>[]ecg, List<Double>[]eeg, String comments) {
 		int counter=1;
-		File manager = new File(System.getProperty("user.dir")+"\\reports\\report_"+counter);
+		File manager = new File(System.getProperty("user.dir")+"\\reports\\report_"+counter+".txt");
 		while(manager.isFile()) {
 			counter++;
+			manager=new File(System.getProperty("user.dir")+"\\reports\\report_"+counter+".txt");
 		}
-		manager= new File(System.getProperty("user.dir")+"\\reports\\report_"+counter);
+		manager= new File(System.getProperty("user.dir")+"\\reports\\report_"+counter+".txt");
 		PrintWriter data =null;
 		try {
+			System.out.println(manager.getAbsolutePath());
 			manager.createNewFile();
 			data= new PrintWriter(manager);
 			Iterator iterator1= eeg[1].iterator();
@@ -139,47 +146,33 @@ public class FileManager {
 		File manager = new File(path);
 		BufferedReader data= null;
 		try {
+			System.out.println(manager.getAbsolutePath());
 			data = new BufferedReader(new InputStreamReader(new FileInputStream(manager)));
-			String inputRead;
 			boolean phaseOneComplete=false;
 			boolean comments=false;
+			String inputRead;
 			System.out.println(data.readLine());
 			while((inputRead=data.readLine())!=null) {
-				
-				if(inputRead.equals("COMMENTS")) {
-					comments=true;
-				}
-				
-				char[] temp=inputRead.toCharArray();
-				double time=0;
-				double input=0;
-				
-				if(inputRead.equals("ECG DATA")) {
-					phaseOneComplete=true;
-					continue;
-				}else if(!comments){
-					String helper="";
-					for (int i = 0; i < temp.length; i++) {
-						if(temp[i]!=' ') {
-							helper=helper+temp[i];
-						}else {
-							time=Double.parseDouble(helper);
-							helper="";
-						}
-						if(i==temp.length-1) {
-							input=Double.parseDouble(helper);
-						}
+				try {
+					parser(inputRead);
+					if(!phaseOneComplete) {
+						time1.add(parser(inputRead)[0]);
+						eeg.add(parser(inputRead)[1]);
 					}
-				}
-				if(comments) {
-					comment=inputRead;
-				}
-				if(phaseOneComplete) {
-					time2.add(time);
-					ecg.add(input);
-				}else {
-					time1.add(time);
-					eeg.add(input);
+					if(phaseOneComplete && ! comments) {
+						time2.add(parser(inputRead)[0]);
+						ecg.add(parser(inputRead)[1]);
+					}
+					if(comments) {
+						comment=comment+inputRead;
+					}
+				}catch(Exception e) {
+					if(inputRead.contains("ECG")) {
+						phaseOneComplete=true;
+					}
+					if(inputRead.contains("EEG")) {
+						comments=true;
+					}
 				}
 			}
 			try {
@@ -188,12 +181,29 @@ public class FileManager {
 				System.out.println("could not close reader");
 				e.printStackTrace();
 			}
-			return new Report ((new List[]{time1, ecg}),(new List[]{time2, eeg}),comment);
+			return new Report ((new List[]{time2, ecg}),(new List[]{time1, eeg}),comment);
 		} catch (Exception e) {
 			System.out.println("could not read report");
 			e.printStackTrace();
 			return null;
 		}
-		
+	}
+	private static double[]parser(String data){
+		char[] temp=data.toCharArray();
+		double time=0;
+		double input=0;
+		String helper="";
+		for (int i = 0; i < temp.length; i++) {
+			if(temp[i]!=' ') {
+				helper=helper+temp[i];
+			}else {
+				time=Double.parseDouble(helper);
+				helper="";
+			}
+			if(i==temp.length-1) {
+				input=Double.parseDouble(helper);
+			}
+		}
+		return new double[] {time, input};
 	}
 }

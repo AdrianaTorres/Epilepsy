@@ -124,8 +124,8 @@ public class UserConfiguration {
 		try {
 			BufferedImage nominal;
 			nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\logo.jpg"));
-			Image tmp = nominal.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
-		    BufferedImage dimg = new BufferedImage(160, 160, BufferedImage.TYPE_INT_ARGB);
+			Image tmp = nominal.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		    BufferedImage dimg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2d = dimg.createGraphics();
 		    g2d.drawImage(tmp, 0, 0, null);
 		    g2d.dispose();
@@ -249,6 +249,7 @@ public class UserConfiguration {
 				}else {
 					data[4]="f";
 				}
+				
 				up.createProfile(data);
 				f.dispose();
 			}
