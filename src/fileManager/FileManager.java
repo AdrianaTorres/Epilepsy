@@ -151,7 +151,6 @@ public class FileManager {
 			boolean phaseOneComplete=false;
 			boolean comments=false;
 			String inputRead;
-			System.out.println(data.readLine());
 			while((inputRead=data.readLine())!=null) {
 				try {
 					parser(inputRead);
@@ -163,15 +162,15 @@ public class FileManager {
 						time2.add(parser(inputRead)[0]);
 						ecg.add(parser(inputRead)[1]);
 					}
-					if(comments) {
-						comment=comment+inputRead;
-					}
 				}catch(Exception e) {
 					if(inputRead.contains("ECG")) {
 						phaseOneComplete=true;
 					}
-					if(inputRead.contains("EEG")) {
+					if(inputRead.contains("COMMENTS")) {
 						comments=true;
+					}
+					if(comments && !inputRead.contains("COMMENTS")) {
+						comment=comment+"\n"+inputRead;
 					}
 				}
 			}

@@ -18,7 +18,7 @@ public class UpdateWorker extends SwingWorker<Void, List<Double>[]> {
     @Override
     protected Void doInBackground() throws Exception {
         while (true) {
-            Thread.sleep(100);
+            Thread.sleep(200);
             publish(monitor.getModel().getECGData());
         }
     }

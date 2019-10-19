@@ -81,7 +81,6 @@ public class PatientViewer {
 		timeECG=new double[rep.getEcgData()[1].size()];
 		ECGdata=new double[rep.getEcgData()[1].size()];
 
-
 		Iterator iterator_1 =rep.getEcgData()[1].iterator();
 		int i=0;
 		for (Iterator iterator = rep.getEcgData()[0].iterator(); iterator.hasNext();) {
@@ -140,12 +139,11 @@ public class PatientViewer {
 		button_2=new JButton("previous");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*List<Double>[] display=chartEEGData("next");
-				if(display[0]!=null) {
-					panel_6.remove(eegGraph);
-					eegGraph=new StaticGraph(display,"EEG");
-					panel_6.add(eegGraph,BorderLayout.CENTER);
-				}*/
+				panel_6.remove(ecgGraph);
+				ecgGraph= displayBackwardECG();
+				panel_6.add(ecgGraph);
+				panel_6.setVisible(false);
+				panel_6.setVisible(true);
 			}
 		});
 
@@ -215,12 +213,11 @@ public class PatientViewer {
 		button_4=new JButton("previous");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*List<Double>[] display=chartECGData("previous");
-				if(display[0]!=null) {
-					panel_7.remove(ecgGraph);
-					PatientViewer.this.ecgGraph=new StaticGraph(display,"ECG");
-					panel_7.add(ecgGraph);
-				}*/
+				panel_7.remove(eegGraph);
+				eegGraph= displayBackwardEEG();
+				panel_7.add(eegGraph);
+				panel_7.setVisible(false);
+				panel_7.setVisible(true);
 			}
 		});
 
@@ -332,6 +329,7 @@ public class PatientViewer {
 		textArea.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		textArea.setBackground(new Color(64, 64, 64));
 		panel_8.add(textArea);
+		textArea.setText(rep.getComments());
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.desktop);
@@ -478,7 +476,6 @@ public class PatientViewer {
 			if(indexECG+i<(ECGdata.length-1)) {
 				data[i]=ECGdata[indexECG+i];
 				time[i]=timeECG[indexECG+i];
-				System.out.println(time[i]);
 			}else if(i>2){
 				data[i]=0;
 				time[i]=time[i-1]+(time[i-1]-time[i-2]);
@@ -509,7 +506,6 @@ public class PatientViewer {
 			if(indexEEG+i<(EEGdata.length-1)) {
 				data[i]=ECGdata[indexEEG+i];
 				time[i]=timeECG[indexEEG+i];
-				System.out.println(time[i]);
 			}else if(i>2){
 				data[i]=0;
 				time[i]=time[i-1]+(time[i-1]-time[i-2]);
@@ -520,6 +516,64 @@ public class PatientViewer {
 			indexEEG+=defaultShiftEEG;
 		}else {
 			indexEEG=EEGdata.length-1;
+		}
+		for (int i = 0; i < time.length; i++) {
+			xAxis.add(time[i]);
+			yAxis.add(data[i]);
+		}
+		StaticGraph s= new StaticGraph(new List[] {xAxis, yAxis},"EEG");
+		return s;
+	}
+	private StaticGraph displayBackwardECG() {
+		double[]data= new double[defaultShiftECG];
+		double[]time= new double[defaultShiftECG];
+
+		List <Double> xAxis = new ArrayList <Double>();
+		List <Double> yAxis = new ArrayList <Double>();
+		button_1.setEnabled(true);
+		for (int i=0; i< defaultShiftECG; i++) {
+			if(indexECG-i>=(0)) {
+				data[i]=ECGdata[indexECG-i];
+				time[i]=timeECG[indexECG-i];
+			}else if(i>2){
+				data[i]=0;
+				time[i]=0-i*(timeECG[1]-timeECG[2]);
+				button_2.setEnabled(false);
+			}
+		}
+		if((indexECG-defaultShiftECG)>=0){
+			indexECG-=defaultShiftECG;
+		}else {
+			indexECG=0;
+		}
+		for (int i = 0; i < time.length; i++) {
+			xAxis.add(time[i]);
+			yAxis.add(data[i]);
+		}
+		StaticGraph s= new StaticGraph(new List[] {xAxis, yAxis},"ECG");
+		return s;
+	}
+	private StaticGraph displayBackwardEEG() {
+		double[]data= new double[defaultShiftEEG];
+		double[]time= new double[defaultShiftEEG];
+
+		List <Double> xAxis = new ArrayList <Double>();
+		List <Double> yAxis = new ArrayList <Double>();
+		button_3.setEnabled(true);
+		for (int i=0; i< defaultShiftEEG; i++) {
+			if(indexEEG-i>=(0)) {
+				data[i]=ECGdata[indexEEG-i];
+				time[i]=timeECG[indexEEG-i];
+			}else if(i>2){
+				data[i]=0;
+				time[i]=0-i*(timeEEG[1]-timeEEG[2]);
+				button_4.setEnabled(false);
+			}
+		}
+		if((indexEEG-defaultShiftEEG)>=0){
+			indexEEG-=defaultShiftEEG;
+		}else {
+			indexEEG=0;
 		}
 		for (int i = 0; i < time.length; i++) {
 			xAxis.add(time[i]);

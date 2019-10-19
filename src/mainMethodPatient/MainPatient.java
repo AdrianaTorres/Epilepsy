@@ -26,12 +26,11 @@ public class MainPatient {
 		}
 	}
 	public static void loadReport(String path,UserProfile up) {
-		System.out.println(FileManager.readData(path).toString());
 		PatientViewer p= new PatientViewer(up, FileManager.readData(path));
 	}
 	public static void stopRecording(UserProfile up, String comments) {
 		up.getBitalinoManager().stop();
-		FileManager.writeData(up.getBitalinoManager().getECGData(), up.getBitalinoManager().getEEGData(), comments);
+		FileManager.writeData(up.getBitalinoManager().getECGFull(), up.getBitalinoManager().getEEGFull(), comments);
 		up.getBitalinoManager().purgeData();
 		
 	}

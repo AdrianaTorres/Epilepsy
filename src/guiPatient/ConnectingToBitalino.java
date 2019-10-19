@@ -159,9 +159,7 @@ public class ConnectingToBitalino {
 							GuiPatient g= new GuiPatient(up);
 							t.interrupt();
 						}
-						System.out.println(currentTime-time+"	"+time+"	"+currentTime);
 						if((currentTime-time)/7500>0.5) {
-							System.out.println("paso!");
 							failedToConnect();
 						}
 						if(!t.isInterrupted()) {

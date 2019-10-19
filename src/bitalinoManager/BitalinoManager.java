@@ -16,7 +16,12 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 	private List<Double> EEGtime;
 	private List<Double> ECGdata;
 	private List<Double> EEGdata;
-	private double time;
+	
+	private List<Double> ECGtimeShort;
+	private List<Double> EEGtimeShort;
+	private List<Double> ECGdataShort;
+	private List<Double> EEGdataShort;
+	private long time;
 
 	public static Frame[] frame;
 
@@ -30,13 +35,17 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 			System.out.println(macAddress);
 			bitalino.open(macAddress, SamplingRate);
 			System.out.println("connected!");
-			int[] channelsToAcquire = {2, 4};
+			int[] channelsToAcquire = {0, 1};
 			bitalino.start(channelsToAcquire);
 			connected =true;
 			ECGtime=new ArrayList<>();
 			EEGtime=new ArrayList<>();
 			ECGdata=new ArrayList<>();
 			EEGdata=new ArrayList<>();
+			ECGtimeShort=new ArrayList<>();
+			EEGtimeShort=new ArrayList<>();
+			ECGdataShort=new ArrayList<>();
+			EEGdataShort=new ArrayList<>();
 		}catch (Exception e) {
 			Logger.getLogger(BitalinoManager.class.getName()).log(Level.SEVERE, null, e);
 			System.out.println("could not connect to the bitalino, please try again");
@@ -51,12 +60,12 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 
 	@Override
 	public List<Double>[] getECGData() {
-		return new List[]{this.ECGtime, this.ECGdata};
+		return new List[]{this.ECGtimeShort, this.ECGdataShort};
 	}
 
 	@Override
 	public List<Double>[] getEEGData() {
-		return new List[]{this.EEGtime, this.ECGdata};
+			return new List[]{this.EEGtimeShort, this.EEGdataShort};
 	}
 
 	@Override
@@ -64,14 +73,24 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 		try {
 			this.time=System.currentTimeMillis();
 			while(true) {
-				frame = bitalino.read(10);
+				frame = bitalino.read(1);
 				for (int i = 0; i < frame.length; i++) {
-					System.out.println(frame[i].analog[2]);
-					System.out.println(frame[i].analog[4]);
-					this.ECGtime.add(System.currentTimeMillis()-time);
-					this.EEGtime.add(System.currentTimeMillis()-time);
-					this.EEGdata.add((double) frame[i].analog[4]);
-					this.ECGdata.add((double) frame[i].analog[2]);
+					if(ECGtimeShort.size()>80) {
+						this.ECGdata.add(this.ECGdataShort.remove(0));
+						this.ECGtime.add(this.ECGtimeShort.remove(0));
+					}
+					if(EEGtimeShort.size()>80) {
+						double exitVal1=this.EEGdataShort.remove(0);
+						this.EEGdata.add(exitVal1);
+						exitVal1=this.EEGtimeShort.remove(0);
+						this.EEGtime.add(exitVal1);
+					}
+					double actualTime=(double)(System.currentTimeMillis()-time);
+					this.ECGtimeShort.add(actualTime);
+					this.EEGtimeShort.add(actualTime);
+					//System.out.println(actualTime +"    "+frame[i].analog[0]+"   "+frame[i].analog[1]);
+					this.ECGdataShort.add((double) frame[i].analog[0]);
+					this.EEGdataShort.add((double) frame[i].analog[1]);
 				}
 			}
 		}catch(BITalinoException e) {
@@ -85,6 +104,21 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 	public void stop(){
 		try {
 			this.bitalino.stop();
+			Iterator iterator_1= ECGtimeShort.iterator();
+			for (Iterator iterator = ECGdataShort.iterator(); iterator.hasNext();) {
+				double data = (double) iterator.next();
+				double time = (double) iterator_1.next();
+				this.ECGdata.add(data);
+				this.ECGtime.add(time);
+			}
+			iterator_1= EEGtimeShort.iterator();
+			for (Iterator iterator = EEGdataShort.iterator(); iterator.hasNext();) {
+				double data = (double) iterator.next();
+				double time = (double) iterator_1.next();
+				this.EEGdata.add(data);
+				this.EEGtime.add(time);
+			}
+			System.out.println(EEGdata.size()+"   "+ECGdata.size());
 		} catch (BITalinoException e) {
 			System.out.println("failed to close properly bitalino");
 			e.printStackTrace();
@@ -103,6 +137,12 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 		EEGtime=new ArrayList<>();
 		ECGdata=new ArrayList<>();
 		EEGdata=new ArrayList<>();
+	}
+	public List <Double>[] getECGFull(){
+		return new List[] {this.ECGtime, this.ECGdata};
+	}
+	public List <Double>[] getEEGFull(){
+		return new List[] {this.EEGtime, this.EEGdata};
 	}
 
 }
