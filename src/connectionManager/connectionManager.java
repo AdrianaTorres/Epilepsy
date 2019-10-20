@@ -9,18 +9,7 @@ import java.util.List;
 
 import fileManager.Report;
 import mainMethodPatient.UserProfile;
-/*Socket socket = new Socket("localhost", 9009);
-PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-System.out.println("Connection established... sending text");
-printWriter.println("Header File\n\n");
-printWriter.println("Tell me, what is it you plan");
-printWriter.println("to do with your one wild");
-printWriter.println("and precious life?");
-printWriter.println("Mary Oliver");
-System.out.println("Sending stop command");
-printWriter.println("Stop");
-releaseResources(printWriter, socket);
-System.exit(0);*/
+
 public class connectionManager {
 	private String ip;
 	private Socket manager;
@@ -81,7 +70,25 @@ public class connectionManager {
 		});
 	}
 	public void sendReport(Report rp) {
-		
+		this.pw.println("USER REQUESTS CREATING REPORT");
+		List <Double> time=rp.getEcgData()[0];
+		List <Double> data=rp.getEcgData()[1];
+		pw.println("SENDING ECG");
+		Iterator iterator_1=time.iterator();
+		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+			pw.println(iterator_1.next());
+			pw.println(iterator.next());
+		}
+		pw.println("SENDING EEG");
+		time=rp.getEegData()[0];
+		data=rp.getEegData()[1];
+		iterator_1=time.iterator();
+		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+			pw.println(iterator_1.next());
+			pw.println(iterator.next());
+		}
+		pw.println("SENDING COMMENTS");
+		pw.println(rp.getComments());
 	}
 	public void sendAlert() {
 		this.pw.println("USER REQUESTS ASSISTANCE");
