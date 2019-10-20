@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import connectionManager.connectionManager;
 import mainMethodPatient.MainPatient;
 import mainMethodPatient.UserProfile;
 
@@ -30,7 +32,7 @@ public class MainScreen{
 	private JPanel contentPane;
 	private static JFrame f;
 
-	public MainScreen(UserProfile up) {
+	public MainScreen(UserProfile up, connectionManager cm) {
 		f= new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(100, 100, 850, 500);
@@ -68,9 +70,9 @@ public class MainScreen{
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(up.bitalinoIsconnected()) {
-					GuiPatient g = new GuiPatient(up);
+					GuiPatient g = new GuiPatient(up,cm);
 				}else {
-					ConnectingToBitalino c = new ConnectingToBitalino(up);
+					ConnectingToBitalino c = new ConnectingToBitalino(up,cm);
 				}
 				f.setVisible(false);
 			}

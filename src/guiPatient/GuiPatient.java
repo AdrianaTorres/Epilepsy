@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
+import connectionManager.connectionManager;
 import mainMethodPatient.MainPatient;
 import mainMethodPatient.UserProfile;
 import optimizedGraphics.XYPanel;
@@ -42,7 +43,7 @@ public class GuiPatient {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
-	public GuiPatient(UserProfile user) {
+	public GuiPatient(UserProfile user, connectionManager cm) {
 
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setBounds(100, 100, 450, 300);

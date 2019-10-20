@@ -14,6 +14,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import connectionManager.connectionManager;
 import mainMethodPatient.UserProfile;
 import optimizedGraphics.UpdateWorker;
 
@@ -38,8 +39,10 @@ public class ConnectingToBitalino {
 	private Component horizontalStrut_a;
 	private Component horizontalStrut_b;
 	private UserProfile up;
-	public ConnectingToBitalino(UserProfile up) {
+	private connectionManager cm;
+	public ConnectingToBitalino(UserProfile up, connectionManager cm) {
 		this.up=up;
+		this.cm=cm;
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(500, 100, 750, 300);
 		f.setResizable(false);
@@ -156,7 +159,7 @@ public class ConnectingToBitalino {
 							Thread bit = new Thread(up.getBitalinoManager());
 							bit.start();
 							f.dispose();
-							GuiPatient g= new GuiPatient(up);
+							GuiPatient g= new GuiPatient(up,cm);
 							t.interrupt();
 						}
 						if((currentTime-time)/7500>0.5) {

@@ -23,7 +23,8 @@ public class MainPatient {
 			}
 		}
 		connectionManager cm = new connectionManager(up.getIP());
-		MainScreen ms = new MainScreen(up);
+		cm.sendUserProfile(up);
+		MainScreen ms = new MainScreen(up,cm);
 	}
 	public static void loadReport(String path,UserProfile up) {
 		PatientViewer p= new PatientViewer(up, FileManager.readData(path));
@@ -34,5 +35,4 @@ public class MainPatient {
 		up.getBitalinoManager().purgeData();
 
 	}
-
 }
