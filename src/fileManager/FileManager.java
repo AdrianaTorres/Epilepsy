@@ -33,7 +33,7 @@ public class FileManager {
 		}
 	}
 	
-	public static void writeUserConfig(String name, String surname, int age, int weight,char gender) {
+	public static void writeUserConfig(String name, String surname, int age, int weight,char gender, String serverIP) {
 		File manager= new File(System.getProperty("user.dir")+"\\config log.txt");
 		PrintWriter data = null;
 		try {
@@ -43,6 +43,7 @@ public class FileManager {
 			data.println(age);
 			data.println(weight);
 			data.println(gender);
+			data.println(serverIP);
 			data.close();
 		} catch (Exception e) {
 			System.out.println("could not write user config data");
@@ -65,7 +66,7 @@ public class FileManager {
 	}
 	public static String[] readUserConfig() {
 		File manager= new File(System.getProperty("user.dir")+"\\config log.txt");
-		String[] record= new String[5];
+		String[] record= new String[6];
 		BufferedReader data=null;
 		try {
 			data= new BufferedReader(new InputStreamReader(new FileInputStream(manager)));

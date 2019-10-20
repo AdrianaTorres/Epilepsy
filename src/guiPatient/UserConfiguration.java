@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -29,11 +30,13 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JSeparator;
 
 public class UserConfiguration {
 
 	private JPanel contentPane;
 	private JFrame f = new JFrame();
+	private JTextField textField;
 
 	public UserConfiguration(UserProfile up) {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +61,7 @@ public class UserConfiguration {
 		panel_3.setLayout(new GridLayout(2,1));
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setLayout(new BorderLayout());
 		panel_4.setBackground(Color.BLACK);
 		
 		panel_3.add(panel_4);
@@ -78,10 +82,10 @@ public class UserConfiguration {
 		panel.add(label);
 
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0,0,0,1,0,0};
-		gbl_panel_1.rowHeights = new int[]{0,0,0,0,0,0};
-		gbl_panel_1.columnWeights = new double[]{0.1,0,0.07,0.1,0,0.05,0.1};
-		gbl_panel_1.rowWeights = new double[]{0.1,0,0,0.1,0,Double.MIN_VALUE};
+		gbl_panel_1.columnWidths = new int[]{0,0,0, 0,1, 0,0,0};
+		gbl_panel_1.rowHeights = new int[]{0,0,0, 0,0, 0,0,0};
+		gbl_panel_1.columnWeights = new double[]{0.1,0,0.07, 0.0,0.05, 0.0,0,0.07,0.1};
+		gbl_panel_1.rowWeights = new double[]{0.1,0,0, 0.0,0.0, 0.0,0,Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 
 		JLabel label_1 = new JLabel("name");
@@ -132,6 +136,9 @@ public class UserConfiguration {
 		    JLabel picLabel = new JLabel(new ImageIcon(dimg));
 
 			panel_4.add(picLabel,BorderLayout.CENTER);
+			
+			JSeparator separator = new JSeparator();
+			panel_4.add(separator, BorderLayout.SOUTH);
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			System.out.println("failed to import image");
@@ -184,74 +191,124 @@ public class UserConfiguration {
 		
 		GridBagConstraints gbc_horizontalStrut_7 = new GridBagConstraints();
 		gbc_horizontalStrut_7.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut_7.gridx = 3;
+		gbc_horizontalStrut_7.gridx = 4;
 		gbc_horizontalStrut_7.gridy = 0;
 		panel_1.add(horizontalStrut_2,gbc_horizontalStrut_7);
 		
 		GridBagConstraints gbc_horizontalStrut_8 = new GridBagConstraints();
 		gbc_horizontalStrut_8.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut_8.gridx = 4;
+		gbc_horizontalStrut_8.gridx = 6;
 		gbc_horizontalStrut_8.gridy = 1;
 		panel_1.add(label_3,gbc_horizontalStrut_8);
 		
 		GridBagConstraints gbc_horizontalStrut_9 = new GridBagConstraints();
 		gbc_horizontalStrut_9.fill = GridBagConstraints.HORIZONTAL;
 		gbc_horizontalStrut_9.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut_9.gridx = 5;
+		gbc_horizontalStrut_9.gridx = 7;
 		gbc_horizontalStrut_9.gridy = 1;
 		panel_1.add(text_3,gbc_horizontalStrut_9);
 		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut.gridx = 3;
+		gbc_horizontalStrut.gridy = 2;
+		panel_1.add(horizontalStrut, gbc_horizontalStrut);
+		
+		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_ = new GridBagConstraints();
+		gbc_horizontalStrut_.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_.gridx = 5;
+		gbc_horizontalStrut_.gridy = 2;
+		panel_1.add(horizontalStrut_4, gbc_horizontalStrut_);
+		
 		GridBagConstraints gbc_horizontalStrut_10 = new GridBagConstraints();
 		gbc_horizontalStrut_10.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut_10.gridx = 4;
+		gbc_horizontalStrut_10.gridx = 6;
 		gbc_horizontalStrut_10.gridy = 2;
 		panel_1.add(label_4,gbc_horizontalStrut_10);
 		
 		GridBagConstraints gbc_horizontalStrut_11 = new GridBagConstraints();
 		gbc_horizontalStrut_11.fill = GridBagConstraints.HORIZONTAL;
 		gbc_horizontalStrut_11.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut_11.gridx = 5;
+		gbc_horizontalStrut_11.gridx = 7;
 		gbc_horizontalStrut_11.gridy = 2;
 		panel_1.add(text_4,gbc_horizontalStrut_11);
 		
 		GridBagConstraints gbc_horizontalStrut_12 = new GridBagConstraints();
 		gbc_horizontalStrut_12.insets = new Insets(0, 0, 5, 0);
-		gbc_horizontalStrut_12.gridx = 6;
+		gbc_horizontalStrut_12.gridx = 8;
 		gbc_horizontalStrut_12.gridy = 0;
 		panel_1.add(horizontalStrut_3,gbc_horizontalStrut_12);
+		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 4;
+		gbc_verticalStrut.gridy = 3;
+		panel_1.add(verticalStrut, gbc_verticalStrut);
 		
 		GridBagConstraints gbc_horizontalStrut_13 = new GridBagConstraints();
 		gbc_horizontalStrut_13.insets = new Insets(0, 0, 5, 5);
 		gbc_horizontalStrut_13.gridx = 0;
-		gbc_horizontalStrut_13.gridy = 3;
+		gbc_horizontalStrut_13.gridy = 4;
 		panel_1.add(verticalStrut_2,gbc_horizontalStrut_13);
+		
+		textField = new JTextField();
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setText("IP server address");
+		textField.setBackground(Color.GRAY);
+		textField.setFont(ui);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.fill = GridBagConstraints.BOTH;
+		gbc_textField.gridx = 4;
+		gbc_textField.gridy = 4;
+		panel_1.add(textField, gbc_textField);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
+		gbc_verticalStrut_3.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut_3.gridx = 4;
+		gbc_verticalStrut_3.gridy = 6;
+		panel_1.add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		JCheckBox chckbxMale = new JCheckBox("Male");
 		chckbxMale.setSelected(true);
 		chckbxMale.setBackground(Color.BLACK);
 		chckbxMale.setForeground(Color.WHITE);
 		GridBagConstraints gbc_chckbxMale = new GridBagConstraints();
-		gbc_chckbxMale.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxMale.gridx = 3;
-		gbc_chckbxMale.gridy = 3;
+		gbc_chckbxMale.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxMale.gridx = 4;
+		gbc_chckbxMale.gridy = 5;
 		panel_1.add(chckbxMale, gbc_chckbxMale);
 		
 		JButton button_1 = new JButton("Ok");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String [] data = new String[5];
-				data[0]=text_1.getText();
-				data[1]=text_2.getText();
-				data[2]=text_3.getText();
-				data[3]=text_4.getText();
-				if(chckbxMale.isSelected()) {
-					data[4]="m";
-				}else {
-					data[4]="f";
+				try {
+					Integer.parseInt(text_3.getText());
+					Integer.parseInt(text_4.getText());
+					String [] data = new String[6];
+					data[0]=text_1.getText();
+					data[1]=text_2.getText();
+					data[2]=text_3.getText();
+					data[3]=text_4.getText();
+					if(chckbxMale.isSelected()) {
+						data[4]="m";
+					}else {
+						data[4]="f";
+					}
+					if(textField.getText().equals("")) {
+						throw new Exception();
+					}
+					data[5]=textField.getText();
+					up.createProfile(data);
+					f.dispose();
+				}catch(Exception e){
+					JOptionPane.showMessageDialog(f,"Make sure the inputs are in the correct format.","WARNING",JOptionPane.WARNING_MESSAGE);
 				}
 				
-				up.createProfile(data);
-				f.dispose();
 			}
 		});
 		JButton button_2 = new JButton("Cancel");

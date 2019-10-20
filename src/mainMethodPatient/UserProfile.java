@@ -17,6 +17,7 @@ public class UserProfile {
 	private int weight;
 	private char gender;
 	private boolean exists;
+	private String ServerIp;
 	public UserProfile() {
 		if(FileManager.isConfigured()) {
 			m=new BitalinoManager();
@@ -40,13 +41,14 @@ public class UserProfile {
 	
 	public void createProfile(String[]userconfig) {
 		FileManager.configure();
-		FileManager.writeUserConfig(userconfig[0], userconfig[1], Integer.parseInt(userconfig[2]), Integer.parseInt(userconfig[3]), userconfig[4].toCharArray()[0]);
+		FileManager.writeUserConfig(userconfig[0], userconfig[1], Integer.parseInt(userconfig[2]), Integer.parseInt(userconfig[3]), userconfig[4].toCharArray()[0], userconfig[5]);
 		this.name=userconfig[0];
 		this.surname=userconfig[1];
 		this.age=Integer.parseInt(userconfig[2]);
 		this.weight=Integer.parseInt(userconfig[3]);
 		this.gender=userconfig[4].toCharArray()[0];
 		exists=true;
+		this.ServerIp=userconfig[5];
 		m=new BitalinoManager();
 	}
 	
@@ -89,6 +91,9 @@ public class UserProfile {
 	}
 	public void setGender(char gender) {
 		this.gender = gender;
+	}
+	public String getIP() {
+		return this.ServerIp;
 	}
 	public BitalinoManager getBitalinoManager() {
 		return this.m;

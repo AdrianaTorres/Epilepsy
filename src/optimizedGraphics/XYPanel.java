@@ -24,6 +24,7 @@ public class XYPanel extends JPanel implements ChartMonitor{
         	 List<Double>[] ecg = model.getECGData();
              chart.addSeries(plotName, ecg[0], ecg[1]);
         }else {
+        	System.out.println("Paso por eeg!");
         	List<Double>[] ecg = model.getEEGData();
             chart.addSeries(plotName, ecg[0], ecg[1]);
         }
@@ -33,7 +34,7 @@ public class XYPanel extends JPanel implements ChartMonitor{
         XChartPanel<XYChart> chartPane = new XChartPanel<>(chart);
         add(chartPane);
 
-        UpdateWorker worker = new UpdateWorker(this);
+        UpdateWorker worker = new UpdateWorker(this, plotName);
         worker.execute();
     }
 
