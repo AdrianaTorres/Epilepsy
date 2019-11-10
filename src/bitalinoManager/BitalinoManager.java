@@ -116,6 +116,7 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 	public void stopThread(){
 		try {
 			this.bitalino.stop();
+			this.bitalino.close();
 			Iterator iterator_1= ECGtimeShort.iterator();
 			for (Iterator iterator = ECGdataShort.iterator(); iterator.hasNext();) {
 				double data = (double) iterator.next();
@@ -134,6 +135,7 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 			}
 			EEGtimeShort.removeAll(EEGtimeShort);
 			EEGdataShort.removeAll(EEGdataShort);
+			this.connected=false;
 		} catch (BITalinoException e) {
 			System.out.println("failed to close properly bitalino");
 			e.printStackTrace();

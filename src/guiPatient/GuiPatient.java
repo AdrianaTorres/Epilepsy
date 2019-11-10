@@ -52,6 +52,15 @@ public class GuiPatient {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		
+		if(!user.bitalinoIsconnected()) {
+			user.startBitalino(user.getMacAddress());
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
 		panel.setBackground(SystemColor.windowBorder);

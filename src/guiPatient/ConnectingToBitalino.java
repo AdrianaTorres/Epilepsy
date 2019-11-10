@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import connectionManager.connectionManager;
+import mainMethodPatient.MainPatient;
 import mainMethodPatient.UserProfile;
 
 import java.awt.Component;
@@ -138,9 +139,7 @@ public class ConnectingToBitalino {
 				panel_3.setVisible(true);
 				textField_1.setEnabled(false);
 				try {
-					up.startBitalino(textField_1.getText());
-					System.out.println("success!");
-					GuiPatient g = new GuiPatient(up, cm);
+					MainPatient.connectingToBitalino(up, cm, textField_1.getText());
 					f.dispose();
 				}catch(Exception e) {
 					panel_3.add(button_1);

@@ -27,10 +27,10 @@ public class MainPatient {
 	}
 	public static void stopRecording(UserProfile up, String comments,connectionManager cm) {
 		FileManager.writeData(up.getBitalinoManager().getECGFull(), up.getBitalinoManager().getEEGFull(), comments);
-		up.getBitalinoManager().stopThread();
+		up.stopBitalino();
+		up.getBitalinoManager().purgeData();
 		cm.terminateSession();
 		cm.sendReport(FileManager.readData(FileManager.Defaultpath));
-		
 		
 	}
 	/*the login page has 3 buttons: cancel, login and create a new profile. if it selects login it calls this method. 
@@ -102,4 +102,15 @@ public class MainPatient {
 	}
 	/*the next method should be activated when the user presses the alert button it should tell the connection manager to send an alert to the 
 	 * server, not implemented yet...*/
+	
+	
+	public static void connectingToBitalino(UserProfile up,connectionManager cm, String mac) throws Exception{
+		up.startBitalino(mac);
+		if(!up.bitalinoIsconnected()) {
+			throw new Exception();
+		}
+		System.out.println("success!");
+		GuiPatient g = new GuiPatient(up, cm);
+	}
+	
 }

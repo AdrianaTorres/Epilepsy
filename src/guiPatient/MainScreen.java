@@ -69,7 +69,7 @@ public class MainScreen{
 		JButton button_1= new JButton("Start Recording");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(up.bitalinoIsconnected()) {
+				if(up.getBitalinoManager()!=null) {				
 					GuiPatient g = new GuiPatient(up,cm);
 				}else {
 					ConnectingToBitalino c= new ConnectingToBitalino(up,cm);

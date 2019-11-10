@@ -43,6 +43,7 @@ public class UserProfile {
 	 * accessible through the getECGdata and getEEGdata methods.*/
 	public void stopBitalino() {
 		this.bitalinoThread.interrupt();
+		this.bitalinoThread=null;
 		m.stopThread();
 	}
 	public boolean bitalinoIsconnected() {
