@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import connectionManager.connectionManager;
+import mainMethodPatient.MainPatient;
 import mainMethodPatient.UserProfile;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -36,9 +39,8 @@ public class UserConfiguration {
 
 	private JPanel contentPane;
 	private JFrame f = new JFrame();
-	private JTextField textField;
 
-	public UserConfiguration(UserProfile up) {
+	public UserConfiguration(connectionManager cm) {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(200, 400, 750, 420);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -74,7 +76,7 @@ public class UserConfiguration {
 
 		Font ui = new Font("Seguoe UI", Font.PLAIN,15);
 
-		JLabel label = new JLabel("Please Configure your device:");
+		JLabel label = new JLabel("New Profile");
 		label.setFont(ui);
 		label.setForeground(Color.WHITE);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -254,18 +256,6 @@ public class UserConfiguration {
 		gbc_horizontalStrut_13.gridy = 4;
 		panel_1.add(verticalStrut_2,gbc_horizontalStrut_13);
 		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setText("IP server address");
-		textField.setBackground(Color.GRAY);
-		textField.setFont(ui);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.BOTH;
-		gbc_textField.gridx = 4;
-		gbc_textField.gridy = 4;
-		panel_1.add(textField, gbc_textField);
-		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
 		gbc_verticalStrut_3.insets = new Insets(0, 0, 5, 5);
@@ -287,23 +277,16 @@ public class UserConfiguration {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Integer.parseInt(text_3.getText());
-					Integer.parseInt(text_4.getText());
-					String [] data = new String[6];
-					data[0]=text_1.getText();
-					data[1]=text_2.getText();
-					data[2]=text_3.getText();
-					data[3]=text_4.getText();
+					int age = Integer.parseInt(text_3.getText());
+					int weight = Integer.parseInt(text_4.getText());
+					char gender;
 					if(chckbxMale.isSelected()) {
-						data[4]="m";
+						gender='m';
 					}else {
-						data[4]="f";
+						gender= 'f';
 					}
-					if(textField.getText().equals("")) {
-						throw new Exception();
-					}
-					data[5]=textField.getText();
-					up.createProfile(data);
+					UserProfile up = new UserProfile(text_1.getText(),text_2.getText(),weight, age, gender);
+					MainPatient.requestNewProfile(up, cm);
 					f.dispose();
 				}catch(Exception e){
 					JOptionPane.showMessageDialog(f,"Make sure the inputs are in the correct format.","WARNING",JOptionPane.WARNING_MESSAGE);

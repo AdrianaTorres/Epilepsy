@@ -44,7 +44,6 @@ public class GuiPatient {
 	private JPanel panel_6;
 	private JPanel panel_7;
 	public GuiPatient(UserProfile user, connectionManager cm) {
-
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -52,8 +51,6 @@ public class GuiPatient {
 		f.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		
-		user.getBitalinoManager().start();
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
@@ -216,8 +213,7 @@ public class GuiPatient {
 			public void actionPerformed(ActionEvent arg0) {
 				f.dispose();
 				MainScreen.invokeMe();
-				MainPatient.stopRecording(user, textArea.getText());
-				//method in main menu to save recorded data and reopen main window
+				MainPatient.stopRecording(user, textArea.getText(),cm);
 			}
 		});
 		stop.setForeground(Color.BLACK);
@@ -252,7 +248,7 @@ public class GuiPatient {
 		JButton btnNewButton_1 = new JButton("ALERT");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*Send information here*/
+				MainPatient.requestMonitoring(cm);
 				try {
 					BufferedImage nominal;
 					if(user.getGender()=='m') {

@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class FileManager {
+	public static String Defaultpath=System.getProperty("user.dir")+"\\reports\\LastReport.txt";
 	public static void configure(){
 		String path=System.getProperty("user.dir");		
 		String configLog=path+"\\config log.txt";
@@ -93,13 +94,8 @@ public class FileManager {
 		return record;
 	}
 	public static void writeData(List<Double>[]ecg, List<Double>[]eeg, String comments) {
-		int counter=1;
-		File manager = new File(System.getProperty("user.dir")+"\\reports\\report_"+counter+".txt");
-		while(manager.isFile()) {
-			counter++;
-			manager=new File(System.getProperty("user.dir")+"\\reports\\report_"+counter+".txt");
-		}
-		manager= new File(System.getProperty("user.dir")+"\\reports\\report_"+counter+".txt");
+		File manager = new File(System.getProperty("user.dir")+"\\reports\\LastReport.txt");
+		System.out.println("I am summoned!");
 		PrintWriter data =null;
 		try {
 			System.out.println(manager.getAbsolutePath());

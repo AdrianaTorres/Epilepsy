@@ -10,50 +10,40 @@ import fileManager.FileManager;
  * Sincerely: past Rodri*/
 public class UserProfile {
 	private BitalinoManager m;
-	
+
 	private String name;
 	private String surname;
 	private int age;
 	private int weight;
 	private char gender;
 	private boolean exists;
-	private String ServerIp;
-	public UserProfile() {
-		if(FileManager.isConfigured()) {
-			m=new BitalinoManager();
-			String[]temp=FileManager.readUserConfig();
-			System.out.println(temp[2]);
-			name=temp[0];
-			surname=temp[1];
-			age=Integer.parseInt(temp[2]);
-			weight=Integer.parseInt(temp[3]);
-			gender=temp[4].toCharArray()[0];
-			exists=true;
-		}else {
-			System.out.println("could not create a user profile, config file is damaged or missing");
-			exists =false;
-		}
-	}
+	private Thread bitalinoThread;
+	private String macAddress;
 	
-	public boolean configExists() {
-		return exists;
-	}
-	
-	public void createProfile(String[]userconfig) {
-		FileManager.configure();
-		FileManager.writeUserConfig(userconfig[0], userconfig[1], Integer.parseInt(userconfig[2]), Integer.parseInt(userconfig[3]), userconfig[4].toCharArray()[0], userconfig[5]);
-		this.name=userconfig[0];
-		this.surname=userconfig[1];
-		this.age=Integer.parseInt(userconfig[2]);
-		this.weight=Integer.parseInt(userconfig[3]);
-		this.gender=userconfig[4].toCharArray()[0];
+	public UserProfile(String name, String surname, int weight, int age, char gender) {
+		this.m=null;
+		this.name=name;
+		this.surname=surname;
+		this.age=age;
+		this.weight=weight;
+		this.gender=gender;
 		exists=true;
-		this.ServerIp=userconfig[5];
-		m=new BitalinoManager();
+		this.bitalinoThread=null;
+		this.macAddress="";
 	}
-	
-	public void initiateBitalino(String mac) {
-		m.connect(mac);
+	/*Starts the bitalino on another thread, this is not done it will get stuck in a forever loop in the run method of the bitalino:
+	 * NOT recommended*/
+	public void startBitalino(String mac) {
+		m=new BitalinoManager(mac);
+		this.macAddress=mac;
+		bitalinoThread = new Thread(m);
+		bitalinoThread.start();
+	}
+	/*kills the bitalino thread, once this method is called the information of all the session should be stored in lists which should be
+	 * accessible through the getECGdata and getEEGdata methods.*/
+	public void stopBitalino() {
+		this.bitalinoThread.interrupt();
+		m.stopThread();
 	}
 	public boolean bitalinoIsconnected() {
 		if(m.isConnected()) {
@@ -92,11 +82,14 @@ public class UserProfile {
 	public void setGender(char gender) {
 		this.gender = gender;
 	}
-	public String getIP() {
-		return this.ServerIp;
-	}
 	public BitalinoManager getBitalinoManager() {
 		return this.m;
 	}
-	
+	public boolean configExists() {
+		return exists;
+	}
+	public String getMacAddress() {
+		return(this.macAddress);
+	}
+
 }

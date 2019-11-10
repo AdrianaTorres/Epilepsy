@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 
 import connectionManager.connectionManager;
 import mainMethodPatient.UserProfile;
-import optimizedGraphics.UpdateWorker;
 
 import java.awt.Component;
 import javax.swing.Box;
@@ -38,10 +37,10 @@ public class ConnectingToBitalino {
 	private Component horizontalStrut_6;
 	private Component horizontalStrut_a;
 	private Component horizontalStrut_b;
-	private UserProfile up;
+	private boolean threadKill;
 	private connectionManager cm;
 	public ConnectingToBitalino(UserProfile up, connectionManager cm) {
-		this.up=up;
+		threadKill=false;
 		this.cm=cm;
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(500, 100, 750, 300);
@@ -138,70 +137,21 @@ public class ConnectingToBitalino {
 				panel_3.setVisible(false);
 				panel_3.setVisible(true);
 				textField_1.setEnabled(false);
-				up.initiateBitalino(textField_1.getText());
-				iterate();
+				try {
+					up.startBitalino(textField_1.getText());
+					System.out.println("success!");
+					GuiPatient g = new GuiPatient(up, cm);
+					f.dispose();
+				}catch(Exception e) {
+					panel_3.add(button_1);
+					panel_3.add(horizontalStrut_5);
+					panel_3.add(horizontalStrut_6);
+				}
+				
+				// figure how to call a window while closing this shit fucking bitch of a window.
 			}
 		});
 		f.setVisible(true);
-	}
-	private Thread t;
-	private void iterate(){  
-		t = new Thread(new Runnable() {
-			public void run() {
-				int i = 1;
-				long time =System.currentTimeMillis();
-				model.setMinimum(0);
-				model.setMaximum(100);
-				try {
-					while (i <= 100 ) {
-						long currentTime=System.currentTimeMillis();
-						if(up.bitalinoIsconnected()) {
-							Thread bit = new Thread(up.getBitalinoManager());
-							bit.start();
-							f.dispose();
-							GuiPatient g= new GuiPatient(up,cm);
-							t.interrupt();
-						}
-						if((currentTime-time)/7500>0.5) {
-							failedToConnect();
-						}
-						if(!t.isInterrupted()) {
-							model.setValue(i);
-							i++;
-							Thread.sleep(10);
-							if(i==100) {
-								model.setValue(0);
-								i=0;
-							}
-						}else {
-							break;
-						}
-					}
-
-				} catch (InterruptedException ex) {
-					model.setValue(model.getMaximum());
-				}
-			}
-		});
-		t.start();
-	}
-	private void stop() {
-		t.interrupt();
-	}
-	public void failedToConnect() {
-		stop();
-		panel_3.remove(jb);
-		panel_3.remove(horizontalStrut_a);
-		panel_3.remove(horizontalStrut_b);
-		panel_3.add(button_1,BorderLayout.CENTER);
-		panel_3.add(horizontalStrut_5,BorderLayout.EAST);
-		panel_3.add(horizontalStrut_6,BorderLayout.WEST);
-		textField_1.setEnabled(true);
-		contentPane.setVisible(false);
-		contentPane.setVisible(true);
-	}
-	public void successfullyConnected() {
-		f.dispose();
 	}
 }
 

@@ -20,11 +20,11 @@ public class UpdateWorker extends SwingWorker<Void, List<Double>[]> {
     @Override
     protected Void doInBackground() throws Exception {
         while (true) {
-            Thread.sleep(200);
+            Thread.sleep(80);
             if(this.plotType.contains("ECG")) {
-            	publish(monitor.getModel().getECGData());
+            	publish(monitor.getModel().getECGRealTimeData());
             }else {
-            	publish(monitor.getModel().getEEGData());
+            	publish(monitor.getModel().getEEGRealTimeData());
             }   
         }
     }

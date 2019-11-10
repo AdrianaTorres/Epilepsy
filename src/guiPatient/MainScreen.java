@@ -72,7 +72,7 @@ public class MainScreen{
 				if(up.bitalinoIsconnected()) {
 					GuiPatient g = new GuiPatient(up,cm);
 				}else {
-					ConnectingToBitalino c = new ConnectingToBitalino(up,cm);
+					ConnectingToBitalino c= new ConnectingToBitalino(up,cm);
 				}
 				f.setVisible(false);
 			}
@@ -84,7 +84,7 @@ public class MainScreen{
 			      int rVal = c.showOpenDialog(f);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
 			        String path=c.getSelectedFile().getAbsolutePath();
-			        MainPatient.loadReport(path,new UserProfile());
+			        MainPatient.loadReport(path,up);
 					f.setVisible(false);
 			      }
 			}

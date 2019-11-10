@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 
 
 public class BitalinoManager implements BitalinoModel, Runnable{
+	
 	private boolean connected;
 	private BITalino bitalino = null;
+	
 	private List<Double> ECGtime;
 	private List<Double> EEGtime;
 	private List<Double> ECGdata;
@@ -21,11 +23,16 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 	private List<Double> EEGtimeShort;
 	private List<Double> ECGdataShort;
 	private List<Double> EEGdataShort;
+	
 	private long time;
-
-	public static Frame[] frame;
-
-	public void connect(String Mac) {
+	private static Frame[] frame;
+	
+	/*Bitalino model explained: */
+	/*basic constructor, does all the instructions needed to connect to the bitalino and then declares the following:
+	 * ECG and EEG variables and variants are used to store all the data since the beginning of the recording. ECG and EEG
+	 * short variables are used to store the last X values of the recording. Why? because the real time plot compresses the more
+	 * points you add to it, which means that at some point in time it just won't be recognizable at all. */
+	public BitalinoManager(String Mac) {
 		connected=false;
 		try {
 			bitalino= new BITalino();
@@ -35,7 +42,7 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 			System.out.println(macAddress);
 			bitalino.open(macAddress, SamplingRate);
 			System.out.println("connected!");
-			int[] channelsToAcquire = {0, 1};
+			int[] channelsToAcquire = {1,3};
 			bitalino.start(channelsToAcquire);
 			connected =true;
 			ECGtime=new ArrayList<>();
@@ -57,17 +64,20 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 	public boolean isConnected() {
 		return connected;
 	}
+	//these 2 next methods are used to return the last X values of the bitalino, has an override because the real time plot requires it so
 
 	@Override
-	public List<Double>[] getECGData() {
+	public List<Double>[] getECGRealTimeData() {
 		return new List[]{this.ECGtimeShort, this.ECGdataShort};
 	}
 
 	@Override
-	public List<Double>[] getEEGData() {
+	public List<Double>[] getEEGRealTimeData() {
 			return new List[]{this.EEGtimeShort, this.EEGdataShort};
 	}
-
+	//this method is the main thing, it samples values from the bitalino and ensures that the maximum amount of values in the short lists is always
+	//under X, in this case X is defined as 80. When we have 80 data points stored, it removes the last one before adding the next one. Keeping 
+	//things constant.
 	@Override
 	public void run() {
 		try {
@@ -88,20 +98,22 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 					double actualTime=(double)(System.currentTimeMillis()-time);
 					this.ECGtimeShort.add(actualTime);
 					this.EEGtimeShort.add(actualTime);
-					//System.out.println(actualTime +"    "+frame[i].analog[0]+"   "+frame[i].analog[1]);
 					this.ECGdataShort.add((double) frame[i].analog[0]);
 					this.EEGdataShort.add((double) frame[i].analog[1]);
 				}
 			}
 		}catch(BITalinoException e) {
-			System.out.println("FATAL ERROR:");
-			System.out.println("failed to read from bitalino");
-			e.printStackTrace();
-			System.exit(0);
+			System.out.println("could not read the bitalino.");
 		}
 
 	}
-	public void stop(){
+	/*a bit of a counter intuitive name here... The name implies it has to be called when the bitalino thread is interrupted, not that 
+	 * this thread interrupts it, it just does some things which ought to be done once the thread ends. Confusing? hell yes.
+	 * so, allow me: The short variables have always 80 data points stored, which means that when we stop the bitalino and reset the short
+	 * variables so that we start on a clean slate next time we push the start recording button we loose 80 points. This is a big no no for me
+	 * so what I do is to store the 80 values stored in the short variables into the long term variables at the end of the recording o that
+	 * no data points are lost.*/
+	public void stopThread(){
 		try {
 			this.bitalino.stop();
 			Iterator iterator_1= ECGtimeShort.iterator();
@@ -111,6 +123,8 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 				this.ECGdata.add(data);
 				this.ECGtime.add(time);
 			}
+			ECGtimeShort.removeAll(ECGtimeShort);
+			ECGdataShort.removeAll(ECGdataShort);
 			iterator_1= EEGtimeShort.iterator();
 			for (Iterator iterator = EEGdataShort.iterator(); iterator.hasNext();) {
 				double data = (double) iterator.next();
@@ -118,26 +132,21 @@ public class BitalinoManager implements BitalinoModel, Runnable{
 				this.EEGdata.add(data);
 				this.EEGtime.add(time);
 			}
-			System.out.println(EEGdata.size()+"   "+ECGdata.size());
+			EEGtimeShort.removeAll(EEGtimeShort);
+			EEGdataShort.removeAll(EEGdataShort);
 		} catch (BITalinoException e) {
 			System.out.println("failed to close properly bitalino");
 			e.printStackTrace();
 		}
 	}
-	public void start() {
-		try {
-			this.bitalino.start(new int[] {2,4});
-		} catch (Throwable e) {
-			System.out.println("could not inititate channels...");
-			e.printStackTrace();
-		}
-	}
+	/*this is the method which resets the long term variables.*/
 	public void purgeData() {
 		ECGtime=new ArrayList<>();
 		EEGtime=new ArrayList<>();
 		ECGdata=new ArrayList<>();
 		EEGdata=new ArrayList<>();
 	}
+	//methods to get the complete set of data.
 	public List <Double>[] getECGFull(){
 		return new List[] {this.ECGtime, this.ECGdata};
 	}
