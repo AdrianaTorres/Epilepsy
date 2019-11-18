@@ -316,7 +316,5 @@ public class GuiHospital extends JFrame {
 		list.setVisible(false);
 		list.setVisible(true);
 	}
-	public static void updateClients(List<String> clients) {
-		users=clients;
-	}
+	
 }

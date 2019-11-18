@@ -272,6 +272,8 @@ public class GuiPatient {
 					panel_4.add(picLabel,0);
 					panel_4.setVisible(false);
 					panel_4.setVisible(true);
+					cm.sendAlert();
+					cm.sendRealTimeFeed();
 					
 				} catch (IOException e) {
 					System.out.println("failed to import image!");
@@ -308,7 +310,7 @@ public class GuiPatient {
 					panel_4.add(picLabel,0);
 					panel_4.setVisible(false);
 					panel_4.setVisible(true);
-					
+					cm.sendRealTimeFeed();
 				} catch (IOException ex) {
 					System.out.println("failed to import image!");
 					ex.printStackTrace();
